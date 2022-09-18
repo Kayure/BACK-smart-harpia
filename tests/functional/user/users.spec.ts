@@ -44,6 +44,17 @@ test.group('Users', (group) => {
     assert.equal(body.status, 422)
   })
 
+  test('it should return 422 when providin an invalid email', async ({ client, assert }) => {
+    const response = await client.post('/users').form({
+      email: 'test@',
+      name: 'test',
+      password: 'test',
+    })
+    const body = response.body()
+    assert.equal(body.code, 'BAD_REQUEST')
+    assert.equal(body.status, 422)
+  })
+
   group.setup(async () => {
     await Database.beginGlobalTransaction()
   })
