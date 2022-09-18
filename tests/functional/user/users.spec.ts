@@ -37,6 +37,13 @@ test.group('Users', (group) => {
     assert.equal(body.status, 409)
   })
 
+  test('it should return 422 when required data is not provided', async ({ client, assert }) => {
+    const response = await client.post('/users').form({})
+    const body = response.body()
+    assert.equal(body.code, 'BAD_REQUEST')
+    assert.equal(body.status, 422)
+  })
+
   group.setup(async () => {
     await Database.beginGlobalTransaction()
   })
