@@ -1,4 +1,4 @@
-// import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+// import type { HttpContext } from '@ioc:Adonis/Core/HttpContext'
 
 import { HttpContext } from '@adonisjs/core/build/standalone'
 import BadRequestException from 'App/Exceptions/BadRequestException'
