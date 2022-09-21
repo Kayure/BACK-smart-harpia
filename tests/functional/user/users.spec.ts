@@ -1,6 +1,6 @@
-import { UserFactory } from 'Database/factories'
 import Database from '@ioc:Adonis/Lucid/Database'
 import { test } from '@japa/runner'
+import { UserFactory } from 'Database/factories'
 
 test.group('Users', (group) => {
   test('it should create an user', async ({ client, assert }) => {
@@ -13,6 +13,7 @@ test.group('Users', (group) => {
     const response = await client.post('/users').form(userPayLoad)
     const body = response.body()
 
+    response.assertStatus(201)
     assert.exists(body.user, 'User undefined')
     assert.exists(body.user.id, 'Id undefined')
     assert.equal(body.user.email, userPayLoad.email)
@@ -62,6 +63,55 @@ test.group('Users', (group) => {
       password: '123',
     })
     const body = response.body()
+    assert.equal(body.code, 'BAD_REQUEST')
+    assert.equal(body.status, 422)
+  })
+
+  //Update tests
+
+  test('it should update an user', async ({ client, assert }) => {
+    const { id, password } = await UserFactory.create()
+    const email = 'test@test.com'
+    const name = 'Test Update'
+
+    const response = await client.put(`/users/${id}`).form({
+      email,
+      name,
+      password,
+    })
+    const body = response.body()
+
+    response.assertStatus(200)
+    assert.exists(body.user, 'User undefined')
+    assert.equal(body.user.email, email)
+    assert.equal(body.user.name, name)
+    assert.equal(body.user.id, id)
+  })
+
+  test('it should return 422 when providing an invalid email', async ({ client, assert }) => {
+    const { id, password, name } = await UserFactory.create()
+    const response = await client.put(`/users/${id}`).form({
+      email: 'test@',
+      name,
+      password,
+    })
+    const body = response.body()
+
+    response.assertStatus(422)
+    assert.equal(body.code, 'BAD_REQUEST')
+    assert.equal(body.status, 422)
+  })
+
+  test('it should return 422 when providing an invalid name', async ({ client, assert }) => {
+    const { id, password, email } = await UserFactory.create()
+    const response = await client.put(`/users/${id}`).form({
+      email,
+      name: 'a',
+      password,
+    })
+    const body = response.body()
+
+    response.assertStatus(422)
     assert.equal(body.code, 'BAD_REQUEST')
     assert.equal(body.status, 422)
   })
