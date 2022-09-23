@@ -2,7 +2,12 @@ import Database from '@ioc:Adonis/Lucid/Database'
 import { test } from '@japa/runner'
 import { UserFactory } from 'Database/factories'
 
-test.group('Users', (group) => {
+test.group('User Creation', (group) => {
+  group.each.setup(async () => {
+    await Database.beginGlobalTransaction()
+    return () => Database.rollbackGlobalTransaction()
+  })
+
   test('it should create an user', async ({ client, assert }) => {
     const userPayLoad = {
       email: 'test@test.com',
@@ -67,17 +72,14 @@ test.group('Users', (group) => {
     assert.equal(body.status, 422)
   })
 
-  //Update tests
-
   test('it should update an user', async ({ client, assert }) => {
-    const { id, password } = await UserFactory.create()
+    const { id } = await UserFactory.create()
     const email = 'test@test.com'
     const name = 'Test Update'
 
     const response = await client.put(`/users/${id}`).form({
       email,
       name,
-      password,
     })
     const body = response.body()
 
@@ -89,11 +91,10 @@ test.group('Users', (group) => {
   })
 
   test('it should return 422 when providing an invalid email', async ({ client, assert }) => {
-    const { id, password, name } = await UserFactory.create()
+    const { id, name } = await UserFactory.create()
     const response = await client.put(`/users/${id}`).form({
       email: 'test@',
       name,
-      password,
     })
     const body = response.body()
 
@@ -103,24 +104,15 @@ test.group('Users', (group) => {
   })
 
   test('it should return 422 when providing an invalid name', async ({ client, assert }) => {
-    const { id, password, email } = await UserFactory.create()
+    const { id, email } = await UserFactory.create()
     const response = await client.put(`/users/${id}`).form({
       email,
       name: 'a',
-      password,
     })
     const body = response.body()
 
     response.assertStatus(422)
     assert.equal(body.code, 'BAD_REQUEST')
     assert.equal(body.status, 422)
-  })
-
-  group.setup(async () => {
-    await Database.beginGlobalTransaction()
-  })
-
-  group.teardown(async () => {
-    await Database.rollbackGlobalTransaction()
   })
 })
