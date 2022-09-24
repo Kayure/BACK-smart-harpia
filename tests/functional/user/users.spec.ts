@@ -90,6 +90,40 @@ test.group('User Creation', (group) => {
     assert.equal(body.user.id, id)
   })
 
+  test('it should update only the name', async ({ client, assert }) => {
+    const { id, email } = await UserFactory.create()
+    const name = 'Test Update'
+
+    const response = await client.put(`/users/${id}`).form({
+      email,
+      name,
+    })
+    const body = response.body()
+
+    response.assertStatus(200)
+    assert.exists(body.user, 'User undefined')
+    assert.equal(body.user.email, email)
+    assert.equal(body.user.name, name)
+    assert.equal(body.user.id, id)
+  })
+
+  test('it should return 409 when email is already in use', async ({ client, assert }) => {
+    const { email } = await UserFactory.create()
+    const { id } = await UserFactory.create()
+    const response = await client.put(`/users/${id}`).form({
+      email,
+      name: 'test',
+    })
+    const body = response.body()
+
+    assert.exists(body.message)
+    assert.exists(body.code)
+    assert.exists(body.status)
+    assert.include(body.message, 'email')
+    assert.equal(body.code, 'BAD_REQUEST')
+    assert.equal(body.status, 409)
+  })
+
   test('it should return 422 when providing an invalid email', async ({ client, assert }) => {
     const { id, name } = await UserFactory.create()
     const response = await client.put(`/users/${id}`).form({
