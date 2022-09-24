@@ -25,7 +25,8 @@ export default class UsersController {
 
     const userByEmail = await User.findBy('email', email)
 
-    if (userByEmail) throw new BadRequestException('email already in use', 409)
+    if (userByEmail && userByEmail.id !== user.id)
+      throw new BadRequestException('email already in use', 409)
 
     user.email = email
     user.name = name
