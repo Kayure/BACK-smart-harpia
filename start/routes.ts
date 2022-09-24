@@ -25,4 +25,4 @@ Route.group(() => {
   Route.put('/:id', 'UsersController.update')
 }).prefix('/users')
 
-Route.post('/forgot-password', 'PasswordController.fogortPassword')
+Route.post('/forgot-password', 'PasswordsController.forgotPassword')
