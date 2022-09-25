@@ -19,4 +19,16 @@ test.group('Session', (group) => {
     assert.isDefined(body.user, 'User undefined')
     assert.equal(body.user.id, id)
   })
+
+  test('it should return an api token when session is created', async ({ client, assert }) => {
+    const plainPassword = 'test'
+    const { id, email } = await UserFactory.merge({ password: plainPassword }).create()
+    const response = await client.post('/sessions').form({ email, password: plainPassword })
+    const body = response.body()
+
+    console.log(body.token)
+    response.assertStatus(201)
+    assert.isDefined(body.token, 'Token undefined')
+    assert.equal(body.user.id, id)
+  })
 })
