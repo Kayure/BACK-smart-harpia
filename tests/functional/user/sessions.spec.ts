@@ -26,7 +26,6 @@ test.group('Session', (group) => {
     const response = await client.post('/sessions').form({ email, password: plainPassword })
     const body = response.body()
 
-    console.log(body.token)
     response.assertStatus(201)
     assert.isDefined(body.token, 'Token undefined')
     assert.equal(body.user.id, id)
@@ -54,5 +53,36 @@ test.group('Session', (group) => {
     assert.equal(body.code, 'BAD_REQUEST')
     assert.equal(body.status, 400)
     assert.equal(body.message, 'invalid credentials')
+  })
+
+  test('it should return 200 when user sings out', async ({ client }) => {
+    const plainPassword = 'test'
+    const { id, email } = await UserFactory.merge({ password: plainPassword }).create()
+    let response = await client.post('/sessions').form({ email, password: plainPassword })
+    const body = response.body()
+
+    const apiToken = body.token
+
+    response = await client.delete('/sessions').header('Authorization', `Bearer ${apiToken}`)
+
+    response.assertStatus(200)
+  })
+
+  test('it should revoke token when user sings out', async ({ client, assert }) => {
+    const plainPassword = 'test'
+    const { email } = await UserFactory.merge({ password: plainPassword }).create()
+    let response = await client.post('/sessions').form({ email, password: plainPassword })
+    const body = response.body()
+
+    const apiToken = body.token
+
+    const token2 = await Database.query().select('*').from('api_tokens')
+
+    response = await client.delete('/sessions').header('Authorization', `Bearer ${apiToken.token}`)
+
+    const token = await Database.query().select('*').from('api_tokens')
+
+    response.assertStatus(200)
+    assert.isEmpty(token)
   })
 })
