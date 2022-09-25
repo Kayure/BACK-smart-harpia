@@ -38,6 +38,8 @@ test.group('Forgot Password', (group) => {
   test('it should create a reset password token', async ({ client, assert }) => {
     const user = await UserFactory.create()
 
+    Mail.fake()
+
     const response = await client.post('/forgot-password').form({
       email: user.email,
       resetPasswordUrl: 'url',
@@ -46,6 +48,8 @@ test.group('Forgot Password', (group) => {
     const tokens = await user.related('tokens').query()
     assert.isNotEmpty(tokens)
     response.assertStatus(204)
+
+    Mail.restore()
   }).timeout(0)
 
   test('it should return 422 when required data is not provided', async ({ client, assert }) => {
