@@ -54,7 +54,9 @@
   "dependencies": {
     "@adonisjs/core": "^5.8.0",
     "@adonisjs/lucid": "^18.1.1",
+    "@adonisjs/mail": "^8.1.2",
     "@adonisjs/repl": "^3.1.0",
+    "@adonisjs/view": "^6.2.0",
     "luxon": "^3.0.3",
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
