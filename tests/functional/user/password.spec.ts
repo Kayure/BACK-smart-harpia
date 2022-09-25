@@ -1,8 +1,8 @@
-import { DateTime, Duration } from 'luxon'
-import Hash from '@ioc:Adonis/Core/Hash'
 import Mail from '@ioc:Adonis/Addons/Mail'
+import Hash from '@ioc:Adonis/Core/Hash'
 import Database from '@ioc:Adonis/Lucid/Database'
 import { test } from '@japa/runner'
+import { DateTime, Duration } from 'luxon'
 
 import { UserFactory } from './../../../database/factories/index'
 
