@@ -20,7 +20,7 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.post('/instituitions', 'InstituitionController.store')
+Route.post('/instituitions', 'InstituitionsController.store')
 
 Route.group(() => {
   Route.post('', 'UsersController.store')
