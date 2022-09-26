@@ -13,7 +13,7 @@ test.group('Instituition Creation', (group) => {
       abbreviation: 'ITN',
     }
 
-    const response = await client.post('/users').form(userPayLoad)
+    const response = await client.post('/instituitions').form(userPayLoad)
     const body = response.body()
 
     response.assertStatus(201)
