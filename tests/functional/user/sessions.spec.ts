@@ -57,7 +57,7 @@ test.group('Session', (group) => {
 
   test('it should return 200 when user sings out', async ({ client }) => {
     const plainPassword = 'test'
-    const { id, email } = await UserFactory.merge({ password: plainPassword }).create()
+    const { email } = await UserFactory.merge({ password: plainPassword }).create()
     let response = await client.post('/sessions').form({ email, password: plainPassword })
     const body = response.body()
 
@@ -75,8 +75,6 @@ test.group('Session', (group) => {
     const body = response.body()
 
     const apiToken = body.token
-
-    const token2 = await Database.query().select('*').from('api_tokens')
 
     response = await client.delete('/sessions').header('Authorization', `Bearer ${apiToken.token}`)
 
