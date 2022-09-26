@@ -20,6 +20,8 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
+Route.post('/instituitions', 'InstituitionController.store')
+
 Route.group(() => {
   Route.post('', 'UsersController.store')
   Route.put('/:id', 'UsersController.update').middleware('auth')
