@@ -53,6 +53,15 @@
     "picomatch" "^2.3.1"
     "slash" "^3.0.0"
 
+"@adonisjs/auth@^8.0.0", "@adonisjs/auth@^8.2.2":
+  "integrity" "sha512-XCfZhe6pm2ImeADr3IquzjDJfwmQxuh2d27AdTfEKvMfpDHVHMnFOFBizfz18Z1Nas/Gl7Lw00CsrnpCLNswmA=="
+  "resolved" "https://registry.npmjs.org/@adonisjs/auth/-/auth-8.2.2.tgz"
+  "version" "8.2.2"
+  dependencies:
+    "@poppinss/hooks" "^5.0.3"
+    "@poppinss/utils" "^4.0.4"
+    "luxon" "^2.4.0"
+
 "@adonisjs/bodyparser@^8.0.0", "@adonisjs/bodyparser@^8.1.6":
   "integrity" "sha512-8OyQO4BeIKK+xJSH1YdSZVTllTsq0uTHcZw4a/7eShXKaVT0z8/IupIG2uymVpPPSfu+3kbN9ueipqFsvz9MpA=="
   "resolved" "https://registry.npmjs.org/@adonisjs/bodyparser/-/bodyparser-8.1.6.tgz"
@@ -68,6 +77,13 @@
     "media-typer" "^1.1.0"
     "slash" "^3.0.0"
 
+"@adonisjs/bouncer@^2.3.0":
+  "integrity" "sha512-wJTIgIkDXtUyeCJGX/iV/EdrLQAuIU0YSwl8Lxn7hcYec9VbsMJ5aYIXeSNtOqECNqVm7KFdzyJiOEij9Luoqg=="
+  "resolved" "https://registry.npmjs.org/@adonisjs/bouncer/-/bouncer-2.3.0.tgz"
+  "version" "2.3.0"
+  dependencies:
+    "@poppinss/utils" "^4.0.4"
+
 "@adonisjs/config@^3.0.8":
   "integrity" "sha512-rquKb2GVmrITfkdwbmFoTIWJRCsgci8g/FJOz3iG35AB6/dW2ksSa6TSRH+zC4fKb3MO/rkS2guUpxKTvG7wHA=="
   "resolved" "https://registry.npmjs.org/@adonisjs/config/-/config-3.0.8.tgz"
@@ -75,7 +91,7 @@
   dependencies:
     "@poppinss/utils" "^4.0.2"
 
-"@adonisjs/core@^5.0.0", "@adonisjs/core@^5.1.0", "@adonisjs/core@^5.7.0", "@adonisjs/core@^5.8.0":
+"@adonisjs/core@^5.0.0", "@adonisjs/core@^5.1.0", "@adonisjs/core@^5.7.0", "@adonisjs/core@^5.7.1", "@adonisjs/core@^5.8.0":
   "integrity" "sha512-t2eP1BL4IFNBBzkcC1YWoBX5FFwB3GP8QODz5a3BzpsLHp9l+bmK2UUpY9HtsZCD94NwanMYVT6x0NeGAo6TjA=="
   "resolved" "https://registry.npmjs.org/@adonisjs/core/-/core-5.8.6.tgz"
   "version" "5.8.6"
@@ -191,7 +207,7 @@
     "abstract-logging" "^2.0.1"
     "pino" "^6.14.0"
 
-"@adonisjs/lucid@^18.1.1":
+"@adonisjs/lucid@^18.0.0", "@adonisjs/lucid@^18.1.1":
   "integrity" "sha512-muGbRawOp14Uiuos0WAGCi/WapTfVov5YNpPb3AnIdgqvJQ5c886WVHO08gOcvuocTaNsnFoNCnc8E+/KD8lKQ=="
   "resolved" "https://registry.npmjs.org/@adonisjs/lucid/-/lucid-18.1.1.tgz"
   "version" "18.1.1"
@@ -3600,6 +3616,11 @@
   "version" "6.0.0"
   dependencies:
     "yallist" "^4.0.0"
+
+"luxon@^2.4.0":
+  "integrity" "sha512-IDkEPB80Rb6gCAU+FEib0t4FeJ4uVOuX1CQ9GsvU3O+JAGIgu0J7sf1OarXKaKDygTZIoJyU6YdZzTFRu+YR0A=="
+  "resolved" "https://registry.npmjs.org/luxon/-/luxon-2.5.0.tgz"
+  "version" "2.5.0"
 
 "luxon@^3.0.3", "luxon@>= 1.26.0":
   "integrity" "sha512-+EfHWnF+UT7GgTnq5zXg3ldnTKL2zdv7QJgsU5bjjpbH17E3qi/puMhQyJVYuCq+FRkogvB5WB6iVvUr+E4a7w=="

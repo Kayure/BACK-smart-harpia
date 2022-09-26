@@ -22,8 +22,11 @@ import Route from '@ioc:Adonis/Core/Route'
 
 Route.group(() => {
   Route.post('', 'UsersController.store')
-  Route.put('/:id', 'UsersController.update')
+  Route.put('/:id', 'UsersController.update').middleware('auth')
 }).prefix('/users')
 
 Route.post('/forgot-password', 'PasswordsController.forgotPassword')
 Route.post('/reset-password', 'PasswordsController.resetPassword')
+
+Route.post('/sessions', 'SessionsController.store')
+Route.delete('/sessions', 'SessionsController.destroy')

@@ -73,11 +73,11 @@ test.group('User Creation', (group) => {
   })
 
   test('it should update an user', async ({ client, assert }) => {
-    const { id } = await UserFactory.create()
+    const user = await UserFactory.create()
     const email = 'test@test.com'
     const name = 'Test Update'
 
-    const response = await client.put(`/users/${id}`).form({
+    const response = await client.put(`/users/${user.id}`).guard('api').loginAs(user).form({
       email,
       name,
     })
@@ -87,30 +87,30 @@ test.group('User Creation', (group) => {
     assert.exists(body.user, 'User undefined')
     assert.equal(body.user.email, email)
     assert.equal(body.user.name, name)
-    assert.equal(body.user.id, id)
+    assert.equal(body.user.id, user.id)
   })
 
   test('it should update only the name', async ({ client, assert }) => {
-    const { id, email } = await UserFactory.create()
+    const user = await UserFactory.create()
     const name = 'Test Update'
 
-    const response = await client.put(`/users/${id}`).form({
-      email,
+    const response = await client.put(`/users/${user.id}`).guard('api').loginAs(user).form({
+      email: user.email,
       name,
     })
     const body = response.body()
 
     response.assertStatus(200)
     assert.exists(body.user, 'User undefined')
-    assert.equal(body.user.email, email)
+    assert.equal(body.user.email, user.email)
     assert.equal(body.user.name, name)
-    assert.equal(body.user.id, id)
+    assert.equal(body.user.id, user.id)
   })
 
   test('it should return 409 when email is already in use', async ({ client, assert }) => {
     const { email } = await UserFactory.create()
-    const { id } = await UserFactory.create()
-    const response = await client.put(`/users/${id}`).form({
+    const user = await UserFactory.create()
+    const response = await client.put(`/users/${user.id}`).guard('api').loginAs(user).form({
       email,
       name: 'test',
     })
@@ -125,10 +125,10 @@ test.group('User Creation', (group) => {
   })
 
   test('it should return 422 when providing an invalid email', async ({ client, assert }) => {
-    const { id, name } = await UserFactory.create()
-    const response = await client.put(`/users/${id}`).form({
+    const user = await UserFactory.create()
+    const response = await client.put(`/users/${user.id}`).guard('api').loginAs(user).form({
       email: 'test@',
-      name,
+      name: user.name,
     })
     const body = response.body()
 
@@ -138,9 +138,9 @@ test.group('User Creation', (group) => {
   })
 
   test('it should return 422 when providing an invalid name', async ({ client, assert }) => {
-    const { id, email } = await UserFactory.create()
-    const response = await client.put(`/users/${id}`).form({
-      email,
+    const user = await UserFactory.create()
+    const response = await client.put(`/users/${user.id}`).guard('api').loginAs(user).form({
+      email: user.email,
       name: 'a',
     })
     const body = response.body()
