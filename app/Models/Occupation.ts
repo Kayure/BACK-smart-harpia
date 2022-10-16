@@ -1,4 +1,5 @@
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
+import User from 'App/Models/User'
 import { DateTime } from 'luxon'
 
 export default class Occupation extends BaseModel {
@@ -10,6 +11,9 @@ export default class Occupation extends BaseModel {
 
   @column()
   public description: string
+
+  @hasMany(() => User)
+  public users: HasMany<typeof User>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
