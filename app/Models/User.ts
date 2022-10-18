@@ -8,6 +8,7 @@ import {
   hasMany,
   HasMany,
 } from '@ioc:Adonis/Lucid/Orm'
+import Instituition from 'App/Models/Instituition'
 import Occupation from 'App/Models/Occupation'
 import { DateTime } from 'luxon'
 
@@ -22,6 +23,12 @@ export default class User extends BaseModel {
 
   @column()
   public email: string
+
+  @column()
+  public instituitionId: number
+
+  @belongsTo(() => Instituition)
+  public instituition: BelongsTo<typeof Instituition>
 
   @column()
   public occupationId: number
