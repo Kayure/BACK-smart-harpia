@@ -1,6 +1,16 @@
 import Hash from '@ioc:Adonis/Core/Hash'
+import {
+  BaseModel,
+  beforeSave,
+  BelongsTo,
+  belongsTo,
+  column,
+  hasMany,
+  HasMany,
+} from '@ioc:Adonis/Lucid/Orm'
+import Instituition from 'App/Models/Instituition'
 import { DateTime } from 'luxon'
-import { BaseModel, beforeSave, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
+
 import LinkToken from './LinkToken'
 
 export default class User extends BaseModel {
@@ -12,6 +22,12 @@ export default class User extends BaseModel {
 
   @column()
   public email: string
+
+  @column()
+  public instituitionId: number
+
+  @belongsTo(() => Instituition)
+  public instituition: BelongsTo<typeof Instituition>
 
   @column({ serializeAs: null })
   public password: string
