@@ -2,13 +2,14 @@ import Hash from '@ioc:Adonis/Core/Hash'
 import {
   BaseModel,
   beforeSave,
-  BelongsTo,
   belongsTo,
+  BelongsTo,
   column,
   hasMany,
   HasMany,
 } from '@ioc:Adonis/Lucid/Orm'
 import Instituition from 'App/Models/Instituition'
+import Occupation from 'App/Models/Occupation'
 import { DateTime } from 'luxon'
 
 import LinkToken from './LinkToken'
@@ -28,6 +29,12 @@ export default class User extends BaseModel {
 
   @belongsTo(() => Instituition)
   public instituition: BelongsTo<typeof Instituition>
+
+  @column()
+  public occupationId: number
+
+  @belongsTo(() => Occupation)
+  public occupation: BelongsTo<typeof Occupation>
 
   @column({ serializeAs: null })
   public password: string
