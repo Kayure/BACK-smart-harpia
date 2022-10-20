@@ -34,3 +34,12 @@ Route.post('/reset-password', 'PasswordsController.resetPassword')
 
 Route.post('/sessions', 'SessionsController.store')
 Route.delete('/sessions', 'SessionsController.destroy')
+
+Route.group(() => {
+  Route.get('', 'MapsController.read')
+  Route.post('', 'MapsController.store')
+  Route.put('/:id', 'MapsController.update')
+  Route.delete('/:id', 'MapsController.destroy')
+})
+  .prefix('/maps')
+  .middleware('auth')
