@@ -39,7 +39,16 @@ Route.group(() => {
   Route.get('', 'LocalsController.read')
   Route.post('', 'LocalsController.store')
   Route.put('/:id', 'LocalsController.update')
-  Route.delete('/:id', 'LocalsControlsler.destroy')
+  Route.delete('/:id', 'LocalsController.destroy')
 })
   .prefix('/locals')
+  .middleware('auth')
+
+Route.group(() => {
+  Route.get('', 'MdevsController.read')
+  Route.post('', 'MdevsController.store')
+  Route.put('/:id', 'MdevsController.update')
+  Route.delete('/:id', 'MdevsController.destroy')
+})
+  .prefix('/mdevs')
   .middleware('auth')
