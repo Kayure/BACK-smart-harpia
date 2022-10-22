@@ -34,3 +34,12 @@ Route.post('/reset-password', 'PasswordsController.resetPassword')
 
 Route.post('/sessions', 'SessionsController.store')
 Route.delete('/sessions', 'SessionsController.destroy')
+
+Route.group(() => {
+  Route.get('', 'LocalsController.read')
+  Route.post('', 'LocalsController.store')
+  Route.put('/:id', 'LocalsController.update')
+  Route.delete('/:id', 'LocalsControlsler.destroy')
+})
+  .prefix('/locals')
+  .middleware('auth')
