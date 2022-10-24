@@ -11,6 +11,9 @@ export default class Local extends BaseModel {
   public name: string
 
   @column()
+  public nickname: string
+
+  @column()
   public description: string
 
   @column()
