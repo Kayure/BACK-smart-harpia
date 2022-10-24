@@ -19,7 +19,7 @@ export default class LocalsController {
   }
 
   public async update({ request, response }: HttpContext) {
-    const { name, description, latitude, longitude, city } = await request.validate(
+    const { name, description, latitude, longitude, city, nickname } = await request.validate(
       UpdateLocalValidator
     )
     const id = request.param('id')
@@ -29,6 +29,8 @@ export default class LocalsController {
     local.description = description
     local.latitude = latitude
     local.longitude = longitude
+
+    if (nickname !== undefined) local.nickname = nickname
 
     const newCity = await City.findOrFail(city)
     await local.related('city').associate(newCity)
