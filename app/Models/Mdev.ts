@@ -8,6 +8,12 @@ export default class Mdev extends BaseModel {
   public id: number
 
   @column()
+  public name: string
+
+  @column()
+  public nickname: string
+
+  @column()
   public latitude: string
 
   @column()
@@ -15,6 +21,9 @@ export default class Mdev extends BaseModel {
 
   @column()
   public active: boolean
+
+  @column()
+  public energy: number
 
   @column()
   public localId: number

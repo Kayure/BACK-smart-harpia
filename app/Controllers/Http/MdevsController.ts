@@ -19,14 +19,20 @@ export default class MdevsController {
   }
 
   public async update({ request, response }: HttpContext) {
-    const { latitude, longitude, local, active } = await request.validate(UpdateMdevValidator)
+    const { name, nickname, latitude, longitude, local, active, energy } = await request.validate(
+      UpdateMdevValidator
+    )
 
     const id = request.param('id')
     const mdev = await Mdev.findOrFail(id)
 
+    mdev.name = name
     mdev.latitude = latitude
     mdev.longitude = longitude
     mdev.active = active
+    mdev.energy = energy
+
+    if (nickname !== undefined) mdev.nickname = nickname
 
     const newLocal = await Local.findOrFail(local)
     await mdev.related('local').associate(newLocal)

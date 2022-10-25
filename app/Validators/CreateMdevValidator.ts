@@ -25,9 +25,12 @@ export default class CreateMdevValidator {
    *    ```
    */
   public schema = schema.create({
+    name: schema.string(),
+    nickname: schema.string.optional(),
     latitude: schema.string(),
     longitude: schema.string(),
     local: schema.number([rules.exists({ table: 'locals', column: 'id' })]),
+    energy: schema.number(),
     active: schema.boolean(),
   })
 
