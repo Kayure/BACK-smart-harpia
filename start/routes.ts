@@ -52,3 +52,12 @@ Route.group(() => {
 })
   .prefix('/mdevs')
   .middleware('auth')
+
+Route.group(() => {
+  Route.get('', 'DevicesController.read')
+  Route.post('', 'DevicesController.store')
+  Route.put('/:id', 'DevicesController.update')
+  Route.delete('/:id', 'DevicesController.destroy')
+})
+  .prefix('/devices')
+  .middleware('auth')
