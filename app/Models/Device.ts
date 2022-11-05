@@ -1,6 +1,7 @@
-import { BaseModel, belongsTo, BelongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, belongsTo, BelongsTo, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
 
+import Log from './Log'
 import Mdev from './Mdev'
 
 export default class Device extends BaseModel {
@@ -24,4 +25,7 @@ export default class Device extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @hasMany(() => Log)
+  public logs: HasMany<typeof Log>
 }

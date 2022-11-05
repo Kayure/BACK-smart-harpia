@@ -61,3 +61,8 @@ Route.group(() => {
 })
   .prefix('/devices')
   .middleware('auth')
+
+Route.group(() => {
+  Route.post('/in', 'LogsController.store')
+  Route.put('/out', 'LogsController.update')
+}).prefix('/logs')
