@@ -20,9 +20,19 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.post('/instituitions', 'InstituitionsController.store')
+Route.group(() => {
+  Route.get('', 'InstituitionsController.read')
+  Route.post('', 'InstituitionsController.store')
+  Route.put('/:id', 'InstituitionsController.update')
+  Route.delete('/:id', 'InstituitionsController.destroy')
+}).prefix('/instituitions')
 
-Route.post('/occupations', 'OccupationsController.store')
+Route.group(() => {
+  Route.get('', 'OccupationsController.read')
+  Route.post('', 'OccupationsController.store')
+  Route.put('/:id', 'OccupationsController.update')
+  Route.delete('/:id', 'OccupationsController.destroy')
+}).prefix('/occupations')
 
 Route.group(() => {
   Route.post('', 'UsersController.store')
