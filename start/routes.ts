@@ -49,6 +49,7 @@ Route.group(() => {
   Route.post('', 'MdevsController.store')
   Route.put('/:id', 'MdevsController.update')
   Route.delete('/:id', 'MdevsController.destroy')
+  Route.post('/:id', 'MdevsController.reset')
 })
   .prefix('/mdevs')
   .middleware('auth')
