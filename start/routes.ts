@@ -67,3 +67,5 @@ Route.group(() => {
   Route.post('/in', 'LogsController.store')
   Route.put('/out', 'LogsController.update')
 }).prefix('/logs')
+
+Route.post('/debug', 'DebugsController.store')
