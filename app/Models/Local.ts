@@ -1,7 +1,8 @@
-import { BaseModel, belongsTo, BelongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, belongsTo, BelongsTo, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
 
 import City from './City'
+import Mdev from './Mdev'
 
 export default class Local extends BaseModel {
   @column({ isPrimary: true })
@@ -33,4 +34,7 @@ export default class Local extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @hasMany(() => Mdev)
+  public mdevs: HasMany<typeof Mdev>
 }
