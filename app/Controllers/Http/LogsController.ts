@@ -1,5 +1,6 @@
 import { HttpContext } from '@adonisjs/core/build/standalone'
 import Device from 'App/Models/Device'
+import Local from 'App/Models/Local'
 import Log from 'App/Models/Log'
 import Mdev from 'App/Models/Mdev'
 import CreateLogValidator from 'App/Validators/CreateLogValidator'
@@ -55,5 +56,63 @@ export default class LogsController {
     log.save()
 
     return response.ok({ log })
+  }
+
+  /*   public async listByMdev({ request, response }: HttpContext) {
+    const id = request.param('id')
+    const { realtime } = request.qs()
+
+    let logs: Log[]
+    if (realtime) {
+      logs = await Log.query().where('mdevId', id).andWhereNull('leaved_at').preload('device')
+    } else {
+      logs = await Log.query().where('mdevId', id).preload('device')
+    }
+
+    return response.ok({ logs })
+  } */
+
+  public async listByMdev({ request, response }: HttpContext) {
+    const id = request.param('id')
+    const { realtime } = request.qs()
+
+    const mdev = await Mdev.findOrFail(id)
+    if (realtime) {
+      await mdev.load('logs', (logQuery) => {
+        logQuery.whereNull('leaved_at').preload('device')
+      })
+    } else {
+      await mdev.load('logs', (loader) => {
+        loader.preload('device')
+      })
+    }
+
+    return response.ok(mdev)
+  }
+
+  public async listByLocal({ request, response }: HttpContext) {
+    const id = request.param('id')
+    const { realtime } = request.qs()
+
+    const local = await Local.findOrFail(id)
+    await local.load('mdevs')
+
+    const mdevs = local.mdevs
+
+    for (let i = 0; i < mdevs.length; i++) {
+      let mdev = mdevs[i]
+
+      if (realtime) {
+        await mdev.load('logs', (logQuery) => {
+          logQuery.whereNull('leaved_at').preload('device')
+        })
+      } else {
+        await mdev.load('logs', (loader) => {
+          loader.preload('device')
+        })
+      }
+    }
+
+    return response.ok(local)
   }
 }
