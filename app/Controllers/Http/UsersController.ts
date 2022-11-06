@@ -46,4 +46,16 @@ export default class UsersController {
 
     return response.ok({ user })
   }
+
+  public async desactivate({ request, response, bouncer }: HttpContextContract) {
+    const id = request.param('id')
+    const user = await User.findOrFail(id)
+
+    await bouncer.authorize('updateUser', user)
+
+    user.active = false
+    await user.save()
+
+    return response.noContent()
+  }
 }
