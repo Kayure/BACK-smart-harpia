@@ -1,6 +1,7 @@
 import { HttpContext } from '@adonisjs/core/build/standalone'
 import Device from 'App/Models/Device'
 import Log from 'App/Models/Log'
+import Mdev from 'App/Models/Mdev'
 import CreateLogValidator from 'App/Validators/CreateLogValidator'
 import UpdateLogValidator from 'App/Validators/UpdateLogValidator'
 import { DateTime } from 'luxon'
@@ -11,6 +12,7 @@ export default class LogsController {
   public async store({ request, response }: HttpContext) {
     const logPayLoad = await request.validate(CreateLogValidator)
 
+    //Create a device if not exits
     let device = await Device.query()
       .where('macAddress', logPayLoad.macAddress)
       .andWhere('mdevId', logPayLoad.mdevId)
@@ -28,6 +30,9 @@ export default class LogsController {
     })
 
     await log.related('device').associate(device!)
+
+    const mdev = await Mdev.findOrFail(logPayLoad.mdevId)
+    await log.related('mdev').associate(mdev)
 
     return response.created({ log })
   }
