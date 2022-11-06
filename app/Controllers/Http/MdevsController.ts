@@ -1,5 +1,6 @@
 import { HttpContext } from '@adonisjs/core/build/standalone'
 import Local from 'App/Models/Local'
+import Log from 'App/Models/Log'
 import Mdev from 'App/Models/Mdev'
 import CreateMdevValidator from 'App/Validators/CreateMdevValidator'
 import UpdateMdevValidator from 'App/Validators/UpdateMdevValidator'
@@ -55,5 +56,18 @@ export default class MdevsController {
     const mdevs = await Mdev.all()
 
     return response.ok({ mdevs })
+  }
+
+  public async reset({ request, response }: HttpContext) {
+    const id = request.param('id')
+
+    //const mdev = await Mdev.findOrFail(id)
+
+    await Log.query()
+      .where('mdev_id', id)
+      .andWhereNull('leaved_at')
+      .update({ leaved_at: new Date() })
+
+    return response.noContent()
   }
 }

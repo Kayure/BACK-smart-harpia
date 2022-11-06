@@ -2,6 +2,7 @@ import { BaseModel, belongsTo, BelongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
 
 import Device from './Device'
+import Mdev from './Mdev'
 
 export default class Log extends BaseModel {
   @column({ isPrimary: true })
@@ -12,6 +13,12 @@ export default class Log extends BaseModel {
 
   @belongsTo(() => Device)
   public device: BelongsTo<typeof Device>
+
+  @column()
+  public mdevId: number
+
+  @belongsTo(() => Mdev)
+  public mdev: BelongsTo<typeof Mdev>
 
   @column.dateTime({ autoCreate: true })
   public enteredAt: DateTime
