@@ -27,6 +27,7 @@ Route.post('/occupations', 'OccupationsController.store')
 Route.group(() => {
   Route.post('', 'UsersController.store')
   Route.put('/:id', 'UsersController.update').middleware('auth')
+  Route.delete('/:id', 'UsersController.desactivate').middleware('auth')
 }).prefix('/users')
 
 Route.post('/forgot-password', 'PasswordsController.forgotPassword')
