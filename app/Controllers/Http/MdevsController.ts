@@ -20,7 +20,7 @@ export default class MdevsController {
   }
 
   public async update({ request, response }: HttpContext) {
-    const { name, nickname, latitude, longitude, local, active, energy } = await request.validate(
+    const { name, nickname, latitude, longitude, local, active } = await request.validate(
       UpdateMdevValidator
     )
 
@@ -31,7 +31,6 @@ export default class MdevsController {
     mdev.latitude = latitude
     mdev.longitude = longitude
     mdev.active = active
-    mdev.energy = energy
 
     if (nickname !== undefined) mdev.nickname = nickname
 
@@ -66,7 +65,7 @@ export default class MdevsController {
     await Log.query()
       .where('mdev_id', id)
       .andWhereNull('leaved_at')
-      .update({ leaved_at: new Date() })
+      .update({ leaved_at: new Date(), reseted: true })
 
     return response.noContent()
   }
