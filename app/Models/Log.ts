@@ -11,6 +11,9 @@ export default class Log extends BaseModel {
   @column()
   public deviceId: number
 
+  @column()
+  public reseted: boolean
+
   @belongsTo(() => Device)
   public device: BelongsTo<typeof Device>
 

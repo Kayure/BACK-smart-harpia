@@ -25,9 +25,6 @@ export default class Mdev extends BaseModel {
   public active: boolean
 
   @column()
-  public energy: number
-
-  @column()
   public localId: number
 
   @belongsTo(() => Local)

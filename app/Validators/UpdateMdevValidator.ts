@@ -30,7 +30,6 @@ export default class UpdateMdevValidator {
     latitude: schema.string(),
     longitude: schema.string(),
     local: schema.number([rules.exists({ table: 'locals', column: 'id' })]),
-    energy: schema.number(),
     active: schema.boolean(),
   })
 
