@@ -12,7 +12,6 @@ export default class extends BaseSchema {
       table.string('longitude').notNullable()
       table.boolean('active').defaultTo(true)
       table.integer('local_id').unsigned().references('locals.id').onDelete('CASCADE')
-      table.integer('energy').notNullable()
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
