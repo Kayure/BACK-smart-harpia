@@ -60,10 +60,11 @@ Route.group(() => {
   Route.post('', 'MdevsController.store')
   Route.put('/:id', 'MdevsController.update')
   Route.delete('/:id', 'MdevsController.destroy')
-  Route.post('/:id', 'MdevsController.reset')
 })
   .prefix('/mdevs')
   .middleware('auth')
+
+Route.post('/mdevs/:id', 'MdevsController.reset')
 
 Route.group(() => {
   Route.get('', 'DevicesController.read')
