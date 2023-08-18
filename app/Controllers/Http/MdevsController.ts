@@ -58,6 +58,14 @@ export default class MdevsController {
     return response.ok({ mdevs })
   }
 
+  public async getMdevByID({ request, response }: HttpContext) {
+    const id = request.param('id')
+
+    const mdev = await Mdev.findOrFail(id)
+
+    return response.ok({ mdev })
+  }
+
   public async reset({ request, response }: HttpContext) {
     const id = request.param('id')
 
@@ -66,7 +74,7 @@ export default class MdevsController {
     await Log.query()
       .where('mdev_id', id)
       .andWhereNull('leaved_at')
-      .update({ leaved_at: new Date() })
+      .update({ leaved_at: new Date(), reseted: 1 })
 
     return response.noContent()
   }

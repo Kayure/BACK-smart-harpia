@@ -44,6 +44,7 @@ Route.post('/forgot-password', 'PasswordsController.forgotPassword')
 Route.post('/reset-password', 'PasswordsController.resetPassword')
 
 Route.post('/sessions', 'SessionsController.store')
+Route.get('/sessions', 'SessionsController.getSession').middleware('auth')
 Route.delete('/sessions', 'SessionsController.destroy')
 
 Route.group(() => {
@@ -57,13 +58,15 @@ Route.group(() => {
 
 Route.group(() => {
   Route.get('', 'MdevsController.read')
+  Route.get('/:id', 'MdevsController.getMdevByID')
   Route.post('', 'MdevsController.store')
   Route.put('/:id', 'MdevsController.update')
   Route.delete('/:id', 'MdevsController.destroy')
-  Route.post('/:id', 'MdevsController.reset')
 })
   .prefix('/mdevs')
   .middleware('auth')
+
+Route.post('/mdevs/:id', 'MdevsController.reset')
 
 Route.group(() => {
   Route.get('', 'DevicesController.read')

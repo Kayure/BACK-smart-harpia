@@ -21,4 +21,12 @@ export default class SessionsController {
 
     return response.ok({})
   }
+
+  public async getSession({ response, auth }: HttpContextContract) {
+    auth.use('api').authenticate()
+
+    const user = auth.user!
+
+    return response.ok({ user })
+  }
 }
