@@ -51,4 +51,12 @@ export default class DevicesController {
 
     return response.ok({ devices })
   }
+
+  public async getDeviceByID({ request, response }: HttpContext) {
+    const id = request.param('id')
+
+    const device = await Device.findOrFail(id)
+
+    return response.ok({ device })
+  }
 }

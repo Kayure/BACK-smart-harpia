@@ -70,6 +70,7 @@ Route.post('/mdevs/:id', 'MdevsController.reset')
 
 Route.group(() => {
   Route.get('', 'DevicesController.read')
+  Route.get('/:id', 'DevicesController.getDeviceByID')
   Route.post('', 'DevicesController.store')
   Route.put('/:id', 'DevicesController.update')
   Route.delete('/:id', 'DevicesController.destroy')
