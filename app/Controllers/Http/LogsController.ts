@@ -1,4 +1,5 @@
 import { HttpContext } from '@adonisjs/core/build/standalone'
+import Database from '@ioc:Adonis/Lucid/Database'
 import Device from 'App/Models/Device'
 import Local from 'App/Models/Local'
 import Log from 'App/Models/Log'
@@ -88,6 +89,38 @@ export default class LogsController {
     }
 
     return response.ok(mdev)
+  }
+
+  public async generateReport({ response }: HttpContext) {
+    try {
+      const data = await Database.query()
+        .select(
+          'mdev_id',
+          Database.raw('HOUR(entered_at) AS hourEntered'),
+          Database.raw('COUNT(DISTINCT device_id) AS uniqueDeviceCount')
+        )
+        .from('logs')
+        .whereRaw('entered_at >= NOW() - INTERVAL 24 HOUR')
+        .groupBy('mdev_id', 'hourEntered')
+        .orderBy('mdev_id')
+        .orderBy('hourEntered')
+
+      const groupedData = this.groupDataByMdevId(data)
+
+      return response.ok(groupedData)
+    } catch (error) {
+      return response.badRequest({ message: 'No data found' })
+    }
+  }
+
+  private groupDataByMdevId(data: any[]) {
+    return data.reduce((result, { mdev_id, hourEntered, uniqueDeviceCount }) => {
+      if (!result[mdev_id]) {
+        result[mdev_id] = []
+      }
+      result[mdev_id].push({ hourEntered, uniqueDeviceCount })
+      return result
+    }, {})
   }
 
   public async listByLocal({ request, response }: HttpContext) {

@@ -81,6 +81,7 @@ Route.group(() => {
 Route.group(() => {
   Route.get('/local/:id', 'LogsController.listByLocal')
   Route.get('/mdev/:id', 'LogsController.listByMdev')
+  Route.get('/report', 'LogsController.generateReport')
   Route.post('/in', 'LogsController.store')
   Route.put('/out', 'LogsController.update')
 }).prefix('/logs')
