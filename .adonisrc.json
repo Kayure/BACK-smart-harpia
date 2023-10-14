@@ -29,7 +29,8 @@
     "@adonisjs/view",
     "@adonisjs/auth",
     "@adonisjs/bouncer",
-    "adonis5-swagger"
+    "adonis5-swagger",
+    "@adonisjs/ally"
   ],
   "aceProviders": [
     "@adonisjs/repl"

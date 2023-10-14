@@ -1,3 +1,5 @@
+import { Response } from '@adonisjs/core/build/standalone'
+import Ally from '@ioc:Adonis/Addons/Ally'
 /*
 |--------------------------------------------------------------------------
 | Routes
@@ -87,3 +89,7 @@ Route.group(() => {
 }).prefix('/logs')
 
 Route.post('/debug', 'DebugsController.store')
+
+Route.get('/google/redirect', 'SessionsController.googleRedirect')
+
+Route.get('/google/callback', 'SessionsController.googleLogin')
