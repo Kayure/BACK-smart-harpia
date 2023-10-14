@@ -1,5 +1,3 @@
-import { Response } from '@adonisjs/core/build/standalone'
-import Ally from '@ioc:Adonis/Addons/Ally'
 /*
 |--------------------------------------------------------------------------
 | Routes
