@@ -27,7 +27,7 @@ const allyConfig: AllyConfig = {
     driver: 'google',
     clientId: Env.get('GOOGLE_CLIENT_ID'),
     clientSecret: Env.get('GOOGLE_CLIENT_SECRET'),
-    callbackUrl: 'http://localhost:8080/google/callback',
+    callbackUrl: Env.get('GOOGLE_CALLBACK_URL'),
   },
 }
 

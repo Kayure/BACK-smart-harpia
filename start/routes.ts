@@ -91,3 +91,4 @@ Route.post('/debug', 'DebugsController.store')
 Route.get('/google/redirect', 'SessionsController.googleRedirect')
 
 Route.get('/google/callback', 'SessionsController.googleLogin')
+Route.post('/sessions/google', 'SessionsController.exchangeToken')

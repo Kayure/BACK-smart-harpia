@@ -52,18 +52,31 @@ export default class SessionsController {
         }
       )
 
-      const token = await auth.use('api').login(user, { expiresIn: '2hours' })
+      const token = await auth.use('api').login(user, { expiresIn: '1minute' })
 
       //response.header('Authorization', `Bearer ${token}`)
 
-      response.plainCookie('ACCESS_AUTHORIZATION_CODE', token.token, {
-        httpOnly: false,
-        sameSite: 'none',
-        secure: true,
-      })
+      //response.plainCookie('ACCESS_AUTHORIZATION_CODE', token.token, {
+      // httpOnly: false,
+      //sameSite: 'none',
+      //secure: true,
+      //})
 
-      return response.redirect(Env.get('CALLBACK_REDIRECT_URL'))
+      return response.redirect(Env.get('CALLBACK_REDIRECT_URL') + '?authorization=' + token.token)
     }
+  }
+
+  public async exchangeToken({ response, auth }: HttpContextContract) {
+    await auth.use('api').authenticate()
+    const user = auth.use('api').user!
+
+    if (!user.active) throw new BadRequestException('account disabled', 403)
+
+    await auth.use('api').revoke()
+
+    const token = await auth.use('api').login(user, { expiresIn: '59minutes' })
+
+    return response.created({ user, token })
   }
 
   public async destroy({ response, auth }: HttpContextContract) {
@@ -73,9 +86,10 @@ export default class SessionsController {
   }
 
   public async getSession({ response, auth }: HttpContextContract) {
-    auth.use('api').authenticate()
+    await auth.use('api').authenticate()
+    const user = auth.use('api').user!
 
-    const user = auth.user!
+    if (!user.active) throw new BadRequestException('account disabled', 403)
 
     return response.ok({ user })
   }
