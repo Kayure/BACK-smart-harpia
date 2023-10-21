@@ -1,0 +1,118 @@
+/devices:
+  get:
+    tags:
+      - Device
+    summary: Obtém todos os Dispositivos
+    description: Retorna uma lista de todos os Dispositivos cadastrados.
+    security:
+      - bearerAuth: []
+    responses:
+      '200':
+        description: Dispositivos obtidos com sucesso
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                devices:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Device'
+      '404':
+        description: Nenhum Dispositivo encontrado
+  post:
+    tags:
+      - Device
+    summary: Cria um novo Dispositivo
+    description: Cria um novo Dispositivo com base nos dados fornecidos.
+    security:
+      - bearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateDevicePayload'
+    responses:
+      '201':
+        description: Dispositivo criado com sucesso
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Device'
+      '422':
+        description: Dados de entrada inválidos
+/devices/{id}:
+  get:
+    tags:
+      - Device
+    summary: Obtém um Dispositivo por ID
+    description: Retorna um Dispositivo com base no ID fornecido.
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        description: ID do Dispositivo a ser obtido.
+    responses:
+      '200':
+        description: Dispositivo obtido com sucesso
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Device'
+      '404':
+        description: Dispositivo não encontrado
+  put:
+    tags:
+      - Device
+    summary: Atualiza um Dispositivo existente
+    description: Atualiza um Dispositivo com base no ID fornecido e nos dados fornecidos.
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        description: ID do Dispositivo a ser atualizado.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UpdateDevicePayload'
+    responses:
+      '200':
+        description: Dispositivo atualizado com sucesso
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Device'
+      '404':
+        description: Dispositivo não encontrado
+      '422':
+        description: Dados de entrada inválidos
+  delete:
+    tags:
+      - Device
+    summary: Exclui um Dispositivo
+    description: Exclui um Dispositivo com base no ID fornecido.
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        description: ID do Dispositivo a ser excluído.
+    responses:
+      '204':
+        description: Dispositivo excluído com sucesso
+      '404':
+        description: Dispositivo não encontrado

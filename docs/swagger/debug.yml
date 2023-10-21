@@ -1,0 +1,26 @@
+/debug:
+  post:
+    tags:
+      - Debug
+    summary: Cria um novo debug
+    description: Cria um novo registro de debug com base nos dados fornecidos.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: A mensagem de debug.
+              mdevId:
+                type: integer
+                description: O ID do Mdev associado ao debug.
+    responses:
+      '201':
+        description: Debug criado com sucesso
+      '404':
+        description: Mdev não encontrado
+      '422':
+        description: Falha na validação dos dados

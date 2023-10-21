@@ -1,15 +1,107 @@
 /occupations:
+  post:
+    tags:
+      - Occupation
+    summary: Cria uma nova ocupação
+    description: Cria uma nova ocupação com base nos dados fornecidos.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: O nome da nova ocupação.
+              description:
+                type: string
+                description: A descrição da nova ocupação.
+    responses:
+      '201':
+        description: Ocupação criada com sucesso
   get:
     tags:
       - Occupation
-    summary: Returns a list of occupations
-    description:
+    summary: Retorna a lista de ocupações
+    description: Obtém a lista completa de todas as ocupações disponíveis.
     responses:
       '200':
-        description: A JSON array of occupations
+        description: Lista de ocupações
         content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                occupations:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: O identificador único da ocupação.
+                      name:
+                        type: string
+                        description: O nome da ocupação.
+                      description:
+                        type: string
+                        description: A descrição da ocupação.
+                      createdAt:
+                        type: string
+                        format: date-time
+                        description: Data e hora de criação da ocupação.
+                      updatedAt:
+                        type: string
+                        format: date-time
+                        description: Data e hora da última atualização da ocupação.
+'/occupations/{id}':
+  delete:
+    tags:
+      - Occupation
+    summary: Deleta uma ocupação
+    description: Deleta uma ocupação existente com base no ID fornecido.
+    parameters:
+      - in: path
+        name: id
+        required: true
+        description: O ID da ocupação a ser deletada.
+        schema:
+          type: integer
+          format: int64
+    responses:
+      '204':
+        description: Ocupação deletada com sucesso
+      '404':
+        description: Ocupação não encontrada
+  put:
+    tags:
+      - Occupation
+    summary: Atualiza uma ocupação
+    description: Atualiza uma ocupação existente com base no ID fornecido.
+    parameters:
+      - in: path
+        name: id
+        required: true
+        description: O ID da ocupação a ser atualizada.
+        schema:
+          type: integer
+          format: int64
+    requestBody:
+      required: true
+      content:
         application/json:
           schema:
-            type: array
-            items:
-              type: string
+            type: object
+            properties:
+              name:
+                type: string
+                description: O novo nome da ocupação.
+              description:
+                type: string
+                description: A nova descrição da ocupação.
+    responses:
+      '200':
+        description: Ocupação atualizada com sucesso
+      '404':
+        description: Ocupação não encontrada

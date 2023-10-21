@@ -1,0 +1,91 @@
+/users:
+  post:
+    tags:
+      - User
+    summary: Cria um novo usuário
+    description: Cria um novo usuário com base nos dados fornecidos.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: O nome do novo usuário.
+              email:
+                type: string
+                description: O endereço de e-mail do novo usuário.
+              instituition:
+                type: integer
+                description: O ID da instituição associada ao novo usuário.
+              occupation:
+                type: integer
+                description: O ID da ocupação associada ao novo usuário.
+              password:
+                type: string
+                description: A senha do novo usuário.
+    responses:
+      '201':
+        description: Usuário criado com sucesso
+      '409':
+        description: E-mail já em uso
+/users/{id}:
+  put:
+    tags:
+      - User
+    summary: Atualiza um usuário
+    description: Atualiza um usuário existente com base no ID fornecido.
+    parameters:
+      - in: path
+        name: id
+        required: true
+        description: O ID do usuário a ser atualizado.
+        schema:
+          type: integer
+          format: int64
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: O novo nome do usuário.
+              email:
+                type: string
+                description: O novo endereço de e-mail do usuário.
+    security:
+      - bearerAuth: []
+    responses:
+      '200':
+        description: Usuário atualizado com sucesso
+      '401':
+        description: Não autorizado a atualizar este usuário
+      '409':
+        description: Novo e-mail já em uso
+
+/users/{id}/deactivate:
+  patch:
+    tags:
+      - User
+    summary: Desativa um usuário
+    description: Desativa um usuário existente com base no ID fornecido.
+    parameters:
+      - in: path
+        name: id
+        required: true
+        description: O ID do usuário a ser desativado.
+        schema:
+          type: integer
+          format: int64
+    security:
+      - bearerAuth: []
+    responses:
+      '204':
+        description: Usuário desativado com sucesso
+      '401':
+        description: Não autorizado a desativar este usuário

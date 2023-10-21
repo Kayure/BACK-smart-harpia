@@ -1,0 +1,84 @@
+/instituitions:
+  post:
+    tags:
+      - Instituition
+    summary: Cria uma nova instituição
+    description: Cria uma nova instituição com base nos dados fornecidos.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: O nome da nova instituição.
+              abbreviation:
+                type: string
+                description: A abreviação da nova instituição.
+    responses:
+      '201':
+        description: Instituição criada com sucesso
+      '422':
+        description: Falha na validação dos dados
+  get:
+    tags:
+      - Instituition
+    summary: Retorna a lista de instituições
+    description: Retorna uma lista de todas as instituições registradas.
+    responses:
+      '200':
+        description: Uma matriz JSON de instituições
+'/instituitions/{id}':
+  put:
+    tags:
+      - Instituition
+    summary: Atualiza uma instituição
+    description: Atualiza uma instituição existente com base no ID fornecido.
+    parameters:
+      - in: path
+        name: id
+        required: true
+        description: O ID da instituição a ser atualizada.
+        schema:
+          type: integer
+          format: int64
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: O novo nome da instituição.
+              abbreviation:
+                type: string
+                description: A nova abreviação da instituição.
+    responses:
+      '200':
+        description: Instituição atualizada com sucesso
+      '404':
+        description: Instituição não encontrada
+      '422':
+        description: Falha na validação dos dados
+  delete:
+    tags:
+      - Instituition
+    summary: Exclui uma instituição
+    description: Exclui uma instituição existente com base no ID fornecido.
+    parameters:
+      - in: path
+        name: id
+        required: true
+        description: O ID da instituição a ser excluída.
+        schema:
+          type: integer
+          format: int64
+    responses:
+      '204':
+        description: Instituição excluída com sucesso
+      '404':
+        description: Instituição não encontrada

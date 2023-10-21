@@ -1,0 +1,42 @@
+paths:
+  /logs/in:
+    post:
+      tags:
+        - Logs
+      summary: Registra a entrada de um dispositivo.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLogPayload'
+      responses:
+        '201':
+          description: Log de entrada registrado com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Log'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+
+  /logs/out:
+    put:
+      tags:
+        - Logs
+      summary: Registra a saída de um dispositivo.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateLogPayload'
+      responses:
+        '200':
+          description: Log de saída registrado com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Log'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'

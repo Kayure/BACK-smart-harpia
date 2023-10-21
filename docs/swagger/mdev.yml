@@ -1,0 +1,164 @@
+/mdevs:
+  get:
+    tags:
+      - Mdev
+    summary: Lista todos os Mdevs
+    description: Retorna uma lista de todos os Mdevs cadastrados.
+    security:
+      - bearerAuth: []
+    responses:
+      '200':
+        description: Mdevs listados com sucesso
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mdevs:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Mdev'
+      '401':
+        description: Não autorizado
+  post:
+    tags:
+      - Mdev
+    summary: Cria um novo Mdev
+    description: Cria um novo Mdev com base nos dados fornecidos.
+    security:
+      - bearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: O nome do Mdev.
+              nickname:
+                type: string
+                description: O apelido do Mdev.
+              latitude:
+                type: string
+                description: A latitude do Mdev.
+              longitude:
+                type: string
+                description: A longitude do Mdev.
+              active:
+                type: boolean
+                description: Indica se o Mdev está ativo.
+              energy:
+                type: number
+                description: O nível de energia do Mdev.
+              local:
+                type: integer
+                description: O ID do local associado ao Mdev.
+    responses:
+      '201':
+        description: Mdev criado com sucesso
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Mdev'
+      '400':
+        description: Falha na requisição de criação de Mdev
+'/mdevs/{id}':
+  put:
+    tags:
+      - Mdev
+    summary: Atualiza um Mdev existente
+    description: Atualiza os dados de um Mdev existente com base no ID fornecido.
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        description: ID do Mdev a ser atualizado.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: O nome do Mdev.
+              nickname:
+                type: string
+                description: O apelido do Mdev.
+              latitude:
+                type: string
+                description: A latitude do Mdev.
+              longitude:
+                type: string
+                description: A longitude do Mdev.
+              active:
+                type: boolean
+                description: Indica se o Mdev está ativo.
+              energy:
+                type: number
+                description: O nível de energia do Mdev.
+              local:
+                type: integer
+                description: O ID do local associado ao Mdev.
+    responses:
+      '200':
+        description: Mdev atualizado com sucesso
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Mdev'
+      '400':
+        description: Falha na requisição de atualização de Mdev
+      '404':
+        description: Mdev não encontrado
+  post:
+    tags:
+      - Mdev
+    summary: Reseta um Mdev
+    description: >-
+      Reseta um Mdev existente com base no ID fornecido, marcando os logs
+      associados como resetados.
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        description: ID do Mdev a ser resetado.
+    responses:
+      '204':
+        description: Mdev resetado com sucesso
+      '404':
+        description: Mdev não encontrado
+  get:
+    tags:
+      - Mdev
+    summary: Obtém um Mdev por ID
+    description: Retorna um Mdev com base no ID fornecido.
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        description: ID do Mdev a ser obtido.
+    responses:
+      '200':
+        description: Mdev obtido com sucesso
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Mdev'
+      '404':
+        description: Mdev não encontrado

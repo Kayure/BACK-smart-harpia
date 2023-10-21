@@ -13,8 +13,18 @@ export default {
       openapi: '3.0.0',
       info: {
         title: 'Smart Harpia API',
-        version: '1.0.0',
+        version: '2.1.0',
         description: 'Smart Harpia API documentation',
+      },
+
+      components: {
+        securitySchemes: {
+          bearerAuth: {
+            type: 'http',
+            scheme: 'bearer',
+            bearerFormat: 'JWT',
+          },
+        },
       },
     },
 
