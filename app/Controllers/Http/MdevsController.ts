@@ -8,6 +8,7 @@ import UpdateMdevValidator from 'App/Validators/UpdateMdevValidator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class MdevsController {
+  // Método para criar um novo dispositivo Mdev
   public async store({ request, response }: HttpContext) {
     const mdevPayLoad = await request.validate(CreateMdevValidator)
 
@@ -19,6 +20,7 @@ export default class MdevsController {
     return response.created({ mdev })
   }
 
+  // Método para atualizar um dispositivo Mdev existente
   public async update({ request, response, bouncer }: HttpContextContract) {
     const { name, latitude, longitude, local, active, imagePath, signalStrenght } =
       await request.validate(UpdateMdevValidator)
@@ -28,6 +30,7 @@ export default class MdevsController {
 
     await bouncer.authorize('updateMdev', mdev)
 
+    // Atualizar os campos do dispositivo Mdev
     if (imagePath !== undefined) mdev.imagePath = imagePath
     if (signalStrenght !== undefined) mdev.signalStrenght = signalStrenght
 
@@ -44,6 +47,7 @@ export default class MdevsController {
     return response.ok({ mdev })
   }
 
+  // Método para excluir um dispositivo Mdev
   public async destroy({ request, response }: HttpContext) {
     const id = request.param('id')
 
@@ -53,12 +57,14 @@ export default class MdevsController {
     return response.noContent()
   }
 
+  // Método para recuperar todos os dispositivos Mdev
   public async read({ response }: HttpContext) {
     const mdevs = await Mdev.all()
 
     return response.ok({ mdevs })
   }
 
+  // Método para recuperar um dispositivo Mdev por ID
   public async getMdevByID({ request, response }: HttpContext) {
     const id = request.param('id')
 
@@ -67,11 +73,11 @@ export default class MdevsController {
     return response.ok({ mdev })
   }
 
+  // Método para redefinir logs em aberto após um Mdev ter perdido a conexão
   public async reset({ request, response }: HttpContext) {
     const id = request.param('id')
 
-    //const mdev = await Mdev.findOrFail(id)
-
+    // Atualiza os registros de log relacionados a este dispositivo Mdev
     await Log.query()
       .where('mdev_id', id)
       .andWhereNull('leaved_at')

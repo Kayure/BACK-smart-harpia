@@ -4,9 +4,8 @@ import Instituition from 'App/Models/Instituition'
 import CreateInstituitionValidator from 'App/Validators/CreateInstituitionValidator'
 import UpdateInstituitionValidator from 'App/Validators/UpdateInstituitionValidator'
 
-// import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-
 export default class InstituitionsController {
+  // Método para criar uma nova instituição
   public async store({ request, response }: HttpContext) {
     const instituitionPayLoad = await request.validate(CreateInstituitionValidator)
 
@@ -14,12 +13,14 @@ export default class InstituitionsController {
     return response.created({ instituition })
   }
 
+  // Método para atualizar uma instituição existente
   public async update({ request, response, bouncer }: HttpContextContract) {
     const { name, abbreviation, imagePath } = await request.validate(UpdateInstituitionValidator)
     const id = request.param('id')
 
     const instituition = await Instituition.findOrFail(id)
 
+    // Autoriza a atualização da instituição somente se pertencer ao usuário e ele for administrador de tal
     await bouncer.authorize('updateInstituition', instituition)
 
     if (imagePath !== undefined) instituition.imagePath = imagePath
@@ -32,6 +33,7 @@ export default class InstituitionsController {
     return response.ok({ instituition })
   }
 
+  // Método para excluir uma instituição
   public async destroy({ request, response }: HttpContext) {
     const id = request.param('id')
 
@@ -41,6 +43,7 @@ export default class InstituitionsController {
     return response.noContent()
   }
 
+  // Método para obter todas as instituições
   public async read({ response }: HttpContext) {
     const instituitions = await Instituition.all()
 

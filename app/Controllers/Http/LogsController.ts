@@ -7,22 +7,21 @@ import CreateLogValidator from 'App/Validators/CreateLogValidator'
 import UpdateLogValidator from 'App/Validators/UpdateLogValidator'
 import { DateTime } from 'luxon'
 
-// import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-
 export default class LogsController {
+  // Método para armazenar um novo log
   public async store({ request, response }: HttpContext) {
-    const logPayLoad = await request.validate(CreateLogValidator)
+    const logPayload = await request.validate(CreateLogValidator)
 
-    //Create a device if not exits
+    // Verificar se o dispositivo já existe, senão criar um
     let device = await Device.query()
-      .where('macAddress', logPayLoad.macAddress)
-      .andWhere('mdevId', logPayLoad.mdevId)
+      .where('macAddress', logPayload.macAddress)
+      .andWhere('mdevId', logPayload.mdevId)
       .first()
 
     if (device === null) {
       device = await Device.create({
-        mdevId: logPayLoad.mdevId,
-        macAddress: logPayLoad.macAddress,
+        mdevId: logPayload.mdevId,
+        macAddress: logPayload.macAddress,
       })
     }
 
@@ -32,18 +31,20 @@ export default class LogsController {
 
     await log.related('device').associate(device!)
 
-    const mdev = await Mdev.findOrFail(logPayLoad.mdevId)
+    const mdev = await Mdev.findOrFail(logPayload.mdevId)
     await log.related('mdev').associate(mdev)
 
     return response.created({ log })
   }
 
+  // Método para atualizar um log
   public async update({ request, response }: HttpContext) {
-    const logPayLoad = await request.validate(UpdateLogValidator)
+    const logPayload = await request.validate(UpdateLogValidator)
 
+    // Procurar o dispositivo e log correspondente
     const device = await Device.query()
-      .where('macAddress', logPayLoad.macAddress)
-      .andWhere('mdevId', logPayLoad.mdevId)
+      .where('macAddress', logPayload.macAddress)
+      .andWhere('mdevId', logPayload.mdevId)
       .firstOrFail()
 
     const log = await Log.query()
@@ -51,6 +52,7 @@ export default class LogsController {
       .andHavingNull('leavedAt')
       .firstOrFail()
 
+    //Marca o horário de saída
     log.leavedAt = DateTime.now()
 
     log.save()
@@ -58,20 +60,7 @@ export default class LogsController {
     return response.ok({ log })
   }
 
-  /*   public async listByMdev({ request, response }: HttpContext) {
-    const id = request.param('id')
-    const { realtime } = request.qs()
-
-    let logs: Log[]
-    if (realtime) {
-      logs = await Log.query().where('mdevId', id).andWhereNull('leaved_at').preload('device')
-    } else {
-      logs = await Log.query().where('mdevId', id).preload('device')
-    }
-
-    return response.ok({ logs })
-  } */
-
+  // Método para listar logs por Mdev
   public async listByMdev({ request, response }: HttpContext) {
     const id = request.param('id')
     const { realtime } = request.qs()
@@ -90,6 +79,7 @@ export default class LogsController {
     return response.ok(mdev)
   }
 
+  // Método para gerar um relatório
   public async generateReport({ response }: HttpContext) {
     try {
       const data = await Database.query()
@@ -112,6 +102,7 @@ export default class LogsController {
     }
   }
 
+  // Método privado para agrupar dados por mdev_id
   private groupDataByMdevId(data: any[]) {
     return data.reduce((result, { mdev_id, hourEntered, uniqueDeviceCount }) => {
       if (!result[mdev_id]) {
