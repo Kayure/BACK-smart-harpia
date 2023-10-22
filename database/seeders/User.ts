@@ -10,6 +10,7 @@ export default class extends BaseSeeder {
       password: '1234',
       admin: true,
       systemAdmin: true,
+      institutionId: 1,
     })
   }
 }
