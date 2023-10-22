@@ -25,20 +25,17 @@ Route.group(() => {
   Route.post('', 'InstituitionsController.store')
   Route.put('/:id', 'InstituitionsController.update')
   Route.delete('/:id', 'InstituitionsController.destroy')
-}).prefix('/instituitions')
-
-Route.group(() => {
-  Route.get('', 'OccupationsController.read')
-  Route.post('', 'OccupationsController.store')
-  Route.put('/:id', 'OccupationsController.update')
-  Route.delete('/:id', 'OccupationsController.destroy')
-}).prefix('/occupations')
+})
+  .prefix('/instituitions')
+  .middleware('auth')
 
 Route.group(() => {
   Route.post('', 'UsersController.store')
   Route.put('/:id', 'UsersController.update').middleware('auth')
   Route.delete('/:id', 'UsersController.desactivate').middleware('auth')
-}).prefix('/users')
+})
+  .prefix('/users')
+  .middleware('auth')
 
 Route.post('/forgot-password', 'PasswordsController.forgotPassword')
 Route.post('/reset-password', 'PasswordsController.resetPassword')
@@ -92,3 +89,5 @@ Route.get('/google/redirect', 'SessionsController.googleRedirect')
 
 Route.get('/google/callback', 'SessionsController.googleLogin')
 Route.post('/sessions/google', 'SessionsController.exchangeToken')
+
+Route.patch('/devices/:macAddress', 'DevicesController.deleteMacByMac')
