@@ -37,13 +37,13 @@ export const { actions } = Bouncer.define('updateUser', (user: User, updatedUser
   return user.id === updatedUser.id
 })
   .define('updateInstituition', (user: User, updatedInstituition: Instituition) => {
-    return user.instituitionId === updatedInstituition.id
+    return user.instituitionId === updatedInstituition.id && user.admin
   })
   .define('updateLocal', (user: User, updatedLocal: Local) => {
-    return user.instituitionId === updatedLocal.instituitionId
+    return user.instituitionId === updatedLocal.instituitionId && user.admin
   })
   .define('updateMdev', (user: User, updatedMdev: Mdev) => {
-    return user.instituitionId === updatedMdev.local.instituitionId
+    return user.instituitionId === updatedMdev.local.instituitionId && user.admin
   })
 
 Bouncer.before((user: User | null) => {
