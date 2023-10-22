@@ -4,7 +4,7 @@ import Database from '@ioc:Adonis/Lucid/Database'
 import { test } from '@japa/runner'
 import { DateTime, Duration } from 'luxon'
 
-import { UserFactory } from './../../../database/factories/index'
+import { UserFactory } from "Database/factories"
 
 test.group('Forgot Password', (group) => {
   group.each.setup(async () => {

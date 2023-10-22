@@ -5,7 +5,7 @@
     summary: Obtém todos os Dispositivos
     description: Retorna uma lista de todos os Dispositivos cadastrados.
     security:
-      - bearerAuth: []
+      - bearerAuth: [ ]
     responses:
       '200':
         description: Dispositivos obtidos com sucesso
@@ -26,7 +26,7 @@
     summary: Cria um novo Dispositivo
     description: Cria um novo Dispositivo com base nos dados fornecidos.
     security:
-      - bearerAuth: []
+      - bearerAuth: [ ]
     requestBody:
       required: true
       content:
@@ -49,7 +49,7 @@
     summary: Obtém um Dispositivo por ID
     description: Retorna um Dispositivo com base no ID fornecido.
     security:
-      - bearerAuth: []
+      - bearerAuth: [ ]
     parameters:
       - in: path
         name: id
@@ -72,7 +72,7 @@
     summary: Atualiza um Dispositivo existente
     description: Atualiza um Dispositivo com base no ID fornecido e nos dados fornecidos.
     security:
-      - bearerAuth: []
+      - bearerAuth: [ ]
     parameters:
       - in: path
         name: id
@@ -103,7 +103,7 @@
     summary: Exclui um Dispositivo
     description: Exclui um Dispositivo com base no ID fornecido.
     security:
-      - bearerAuth: []
+      - bearerAuth: [ ]
     parameters:
       - in: path
         name: id

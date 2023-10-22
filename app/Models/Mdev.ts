@@ -20,7 +20,7 @@ export default class Mdev extends BaseModel {
   public longitude: string
 
   @column()
-  public signalStrenght: string
+  public signalStrength: string
 
   @column()
   public imagePath: string

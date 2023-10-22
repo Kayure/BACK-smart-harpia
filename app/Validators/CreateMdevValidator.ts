@@ -3,8 +3,6 @@ import { CustomMessages, rules, schema } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class CreateMdevValidator {
-  constructor(protected ctx: HttpContextContract) {}
-
   /*
    * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
    *
@@ -28,11 +26,10 @@ export default class CreateMdevValidator {
     name: schema.string(),
     latitude: schema.string(),
     longitude: schema.string(),
-    signalStrenght: schema.string.optional(),
+    signalStrength: schema.string.optional(),
     imagePath: schema.string.optional(),
     local: schema.number([rules.exists({ table: 'locals', column: 'id' })]),
   })
-
   /**
    * Custom messages for validation failures. You can make use of dot notation `(.)`
    * for targeting nested fields and array expressions `(*)` for targeting all
@@ -45,4 +42,6 @@ export default class CreateMdevValidator {
    *
    */
   public messages: CustomMessages = {}
+
+  constructor(protected ctx: HttpContextContract) {}
 }

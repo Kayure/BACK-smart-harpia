@@ -6,7 +6,7 @@ import CreateDeviceValidator from 'App/Validators/CreateDeviceValidator'
 import UpdateDeviceValidator from 'App/Validators/UpdateDeviceValidator'
 
 export default class DevicesController {
-  // Método para criar um novo dispositivo
+  // Método para criar um dispositivo
   public async store({ request, response }: HttpContext) {
     const devicePayLoad = await request.validate(CreateDeviceValidator)
 
@@ -64,7 +64,7 @@ export default class DevicesController {
     return response.ok({ device })
   }
 
-  // Método para apagar um edndereço Mac de um dispositivo por endereço MAC
+  // Método para apagar um endereço Mac de um dispositivo por endereço MAC
   public async deleteMacByMac({ request, response }: HttpContext) {
     const macAddress = request.param('macAddress').toString()
 
@@ -73,7 +73,7 @@ export default class DevicesController {
     device.macAddress =
       'Endereço MAC deletado por motivos de privacidade. ' + string.generateRandom(32)
 
-    device.save()
+    await device.save()
 
     return response.ok({ device })
   }

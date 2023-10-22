@@ -9,7 +9,7 @@ export default class extends BaseSchema {
       table.string('email').notNullable().unique()
       table.string('name').notNullable()
       table.string('password').notNullable()
-      table.integer('instituition_id').unsigned().references('instituitions.id').onDelete('CASCADE')
+      table.integer('institution_id').unsigned().references('institutions.id').onDelete('CASCADE')
       table.boolean('active').defaultTo(true)
       table.boolean('admin').defaultTo(false)
       table.boolean('system_admin').defaultTo(false)

@@ -59,7 +59,7 @@
                 type: string
                 description: O novo endereço de e-mail do usuário.
     security:
-      - bearerAuth: []
+      - bearerAuth: [ ]
     responses:
       '200':
         description: Usuário atualizado com sucesso
@@ -83,7 +83,7 @@
           type: integer
           format: int64
     security:
-      - bearerAuth: []
+      - bearerAuth: [ ]
     responses:
       '204':
         description: Usuário desativado com sucesso

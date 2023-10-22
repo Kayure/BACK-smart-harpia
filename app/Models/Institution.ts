@@ -4,7 +4,7 @@ import { DateTime } from 'luxon'
 import Local from './Local'
 import User from './User'
 
-export default class Instituition extends BaseModel {
+export default class Institution extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 

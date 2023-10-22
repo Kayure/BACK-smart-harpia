@@ -1,13 +1,13 @@
 import { HttpContext } from '@adonisjs/core/build/standalone'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import BadRequestException from 'App/Exceptions/BadRequestException'
-import Instituition from 'App/Models/Instituition'
+import Institution from 'App/Models/Institution'
 import User from 'App/Models/User'
 import CreateUserValidator from 'App/Validators/CreateUserValidator'
 import UpdateUserValidator from 'App/Validators/UpdateUserValidator'
 
 export default class UsersController {
-  // Método para criar um novo usuário
+  // Método para criar um usuário
   public async store({ request, response }: HttpContext) {
     const userPayLoad = await request.validate(CreateUserValidator)
 
@@ -19,8 +19,8 @@ export default class UsersController {
     const user = await User.create(userPayLoad)
 
     // Associando a instituição ao usuário
-    const instituition = await Instituition.findOrFail(userPayLoad.instituition)
-    await user.related('instituition').associate(instituition)
+    const institution = await Institution.findOrFail(userPayLoad.institution)
+    await user.related('institution').associate(institution)
 
     return response.created({ user })
   }
@@ -50,7 +50,7 @@ export default class UsersController {
   }
 
   // Método para desativar um usuário
-  public async desactivate({ request, response, bouncer }: HttpContextContract) {
+  public async deactivate({ request, response, bouncer }: HttpContextContract) {
     const id = request.param('id')
     const user = await User.findOrFail(id)
 

@@ -2,7 +2,7 @@
   post:
     tags:
       - Auth
-    security: []
+    security: [ ]
     description: Login
     parameters:
       - name: credentials

@@ -19,7 +19,7 @@ export default class PasswordsController {
     const random = await promisify(randomBytes)(24)
     const token = random.toString('hex')
 
-    // Atualiza ou cria um novo registro de token para o usuário
+    // Atualiza ou cria um registro de token para o usuário
     await user.related('tokens').updateOrCreate(
       {
         userId: user.id,

@@ -1,6 +1,6 @@
 import { HttpContext } from '@adonisjs/core/build/standalone'
 import City from 'App/Models/City'
-import Instituition from 'App/Models/Instituition'
+import Institution from 'App/Models/Institution'
 import Local from 'App/Models/Local'
 import CreateLocalValidator from 'App/Validators/CreateLocalValidator'
 import UpdateLocalValidator from 'App/Validators/UpdateLocalValidator'
@@ -8,16 +8,16 @@ import UpdateLocalValidator from 'App/Validators/UpdateLocalValidator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class LocalsController {
-  // Método para criar um novo local
+  // Método para criar um local
   public async store({ request, response }: HttpContext) {
     const localPayLoad = await request.validate(CreateLocalValidator)
 
-    // Cria um novo local no banco de dados
+    // Cria um local no banco de dados
     const local = await Local.create(localPayLoad)
 
     // Encontra e associa uma instituição ao local
-    const instituition = await Instituition.findOrFail(localPayLoad.instituition)
-    await local.related('instituition').associate(instituition)
+    const institution = await Institution.findOrFail(localPayLoad.institution)
+    await local.related('institution').associate(institution)
 
     // Encontra e associa uma cidade ao local
     const city = await City.findOrFail(localPayLoad.city)
@@ -28,11 +28,11 @@ export default class LocalsController {
 
   // Método para atualizar um local existente
   public async update({ request, response, bouncer }: HttpContextContract) {
-    const { name, city, instituition } = await request.validate(UpdateLocalValidator)
+    const { name, city, institution } = await request.validate(UpdateLocalValidator)
     const id = request.param('id')
     const local = await Local.findOrFail(id)
 
-    // Autoriza a atualização do local somente se pertencer a instituição do usuário
+    // Autoriza a atualização do local somente se pertencer à instituição do usuário
     await bouncer.authorize('updateLocal', local)
 
     // Encontra e associa uma nova cidade ao local
@@ -40,8 +40,8 @@ export default class LocalsController {
     await local.related('city').associate(newCity)
 
     // Encontra e associa uma nova instituição ao local
-    const newInstituition = await Instituition.findOrFail(instituition)
-    await local.related('instituition').associate(newInstituition)
+    const newInstitution = await Institution.findOrFail(institution)
+    await local.related('institution').associate(newInstitution)
 
     local.name = name
 

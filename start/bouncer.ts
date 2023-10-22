@@ -6,7 +6,7 @@
  */
 
 import Bouncer from '@ioc:Adonis/Addons/Bouncer'
-import Instituition from 'App/Models/Instituition'
+import Institution from 'App/Models/Institution'
 import Local from 'App/Models/Local'
 import Mdev from 'App/Models/Mdev'
 import User from 'App/Models/User'
@@ -36,14 +36,14 @@ import User from 'App/Models/User'
 export const { actions } = Bouncer.define('updateUser', (user: User, updatedUser: User) => {
   return user.id === updatedUser.id
 })
-  .define('updateInstituition', (user: User, updatedInstituition: Instituition) => {
-    return user.instituitionId === updatedInstituition.id && user.admin
+  .define('updateInstitution', (user: User, updatedInstitution: Institution) => {
+    return user.institutionId === updatedInstitution.id && user.admin
   })
   .define('updateLocal', (user: User, updatedLocal: Local) => {
-    return user.instituitionId === updatedLocal.instituitionId && user.admin
+    return user.institutionId === updatedLocal.institutionId && user.admin
   })
   .define('updateMdev', (user: User, updatedMdev: Mdev) => {
-    return user.instituitionId === updatedMdev.local.instituitionId && user.admin
+    return user.institutionId === updatedMdev.local.institutionId && user.admin
   })
 
 Bouncer.before((user: User | null) => {

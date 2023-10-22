@@ -2,9 +2,7 @@ import { CustomMessages, schema } from '@ioc:Adonis/Core/Validator'
 
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-export default class UpdateInstituitionValidator {
-  constructor(protected ctx: HttpContextContract) {}
-
+export default class UpdateInstitutionValidator {
   /*
    * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
    *
@@ -29,7 +27,6 @@ export default class UpdateInstituitionValidator {
     abbreviation: schema.string({}),
     imagePath: schema.string.optional(),
   })
-
   /**
    * Custom messages for validation failures. You can make use of dot notation `(.)`
    * for targeting nested fields and array expressions `(*)` for targeting all
@@ -42,4 +39,6 @@ export default class UpdateInstituitionValidator {
    *
    */
   public messages: CustomMessages = {}
+
+  constructor(protected ctx: HttpContextContract) {}
 }

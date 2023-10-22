@@ -1,7 +1,7 @@
 import Database from '@ioc:Adonis/Lucid/Database'
 import { test } from '@japa/runner'
 
-import { UserFactory } from './../../../database/factories/index'
+import { UserFactory } from "Database/factories"
 
 test.group('Session', (group) => {
   group.each.setup(async () => {

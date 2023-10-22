@@ -8,7 +8,7 @@ import {
   hasMany,
   HasMany,
 } from '@ioc:Adonis/Lucid/Orm'
-import Instituition from 'App/Models/Instituition'
+import Institution from 'App/Models/Institution'
 import { DateTime } from 'luxon'
 
 import LinkToken from './LinkToken'
@@ -36,10 +36,10 @@ export default class User extends BaseModel {
   public imagePath: string
 
   @column()
-  public instituitionId: number
+  public institutionId: number
 
-  @belongsTo(() => Instituition)
-  public instituition: BelongsTo<typeof Instituition>
+  @belongsTo(() => Institution)
+  public institution: BelongsTo<typeof Institution>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

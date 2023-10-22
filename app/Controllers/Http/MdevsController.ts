@@ -8,7 +8,7 @@ import UpdateMdevValidator from 'App/Validators/UpdateMdevValidator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class MdevsController {
-  // Método para criar um novo dispositivo Mdev
+  // Método para criar um dispositivo Mdev
   public async store({ request, response }: HttpContext) {
     const mdevPayLoad = await request.validate(CreateMdevValidator)
 
@@ -22,7 +22,7 @@ export default class MdevsController {
 
   // Método para atualizar um dispositivo Mdev existente
   public async update({ request, response, bouncer }: HttpContextContract) {
-    const { name, latitude, longitude, local, active, imagePath, signalStrenght } =
+    const { name, latitude, longitude, local, active, imagePath, signalStrength } =
       await request.validate(UpdateMdevValidator)
 
     const id = request.param('id')
@@ -32,7 +32,7 @@ export default class MdevsController {
 
     // Atualizar os campos do dispositivo Mdev
     if (imagePath !== undefined) mdev.imagePath = imagePath
-    if (signalStrenght !== undefined) mdev.signalStrenght = signalStrenght
+    if (signalStrength !== undefined) mdev.signalStrength = signalStrength
 
     mdev.name = name
     mdev.latitude = latitude

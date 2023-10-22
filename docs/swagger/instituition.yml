@@ -1,7 +1,7 @@
-/instituitions:
+/institutions:
   post:
     tags:
-      - Instituition
+      - Institution
     summary: Cria uma nova instituição
     description: Cria uma nova instituição com base nos dados fornecidos.
     requestBody:
@@ -24,16 +24,16 @@
         description: Falha na validação dos dados
   get:
     tags:
-      - Instituition
+      - Institution
     summary: Retorna a lista de instituições
     description: Retorna uma lista de todas as instituições registradas.
     responses:
       '200':
         description: Uma matriz JSON de instituições
-'/instituitions/{id}':
+'/institutions/{id}':
   put:
     tags:
-      - Instituition
+      - Institution
     summary: Atualiza uma instituição
     description: Atualiza uma instituição existente com base no ID fornecido.
     parameters:
@@ -66,7 +66,7 @@
         description: Falha na validação dos dados
   delete:
     tags:
-      - Instituition
+      - Institution
     summary: Exclui uma instituição
     description: Exclui uma instituição existente com base no ID fornecido.
     parameters:

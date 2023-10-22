@@ -2,7 +2,7 @@ import { BaseModel, belongsTo, BelongsTo, column, hasMany, HasMany } from '@ioc:
 import { DateTime } from 'luxon'
 
 import City from './City'
-import Instituition from './Instituition'
+import Institution from './Institution'
 import Mdev from './Mdev'
 
 export default class Local extends BaseModel {
@@ -13,10 +13,10 @@ export default class Local extends BaseModel {
   public name: string
 
   @column()
-  public instituitionId: number
+  public institutionId: number
 
-  @belongsTo(() => Instituition)
-  public instituition: BelongsTo<typeof Instituition>
+  @belongsTo(() => Institution)
+  public institution: BelongsTo<typeof Institution>
 
   @column()
   public cityId: number

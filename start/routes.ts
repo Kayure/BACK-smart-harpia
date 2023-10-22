@@ -21,18 +21,18 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.group(() => {
-  Route.get('', 'InstituitionsController.read')
-  Route.post('', 'InstituitionsController.store')
-  Route.put('/:id', 'InstituitionsController.update')
-  Route.delete('/:id', 'InstituitionsController.destroy')
+  Route.get('', 'InstitutionsController.read')
+  Route.post('', 'InstitutionsController.store')
+  Route.put('/:id', 'InstitutionsController.update')
+  Route.delete('/:id', 'InstitutionsController.destroy')
 })
-  .prefix('/instituitions')
+  .prefix('/institutions')
   .middleware('auth')
 
 Route.group(() => {
   Route.post('', 'UsersController.store')
   Route.put('/:id', 'UsersController.update').middleware('auth')
-  Route.delete('/:id', 'UsersController.desactivate').middleware('auth')
+  Route.delete('/:id', 'UsersController.deactivate').middleware('auth')
 })
   .prefix('/users')
   .middleware('auth')

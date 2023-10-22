@@ -11,7 +11,7 @@ export default class extends BaseSchema {
       table.string('longitude').notNullable()
       table.boolean('active').defaultTo(true)
       table.integer('local_id').unsigned().references('locals.id').onDelete('CASCADE')
-      table.string('signal_strenght').nullable()
+      table.string('signal_strength').nullable()
       table.string('image_path').nullable()
 
       /**

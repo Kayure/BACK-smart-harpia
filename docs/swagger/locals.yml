@@ -5,7 +5,7 @@
     summary: Lista todos os locais
     description: Retorna uma lista de todos os locais cadastrados.
     security:
-      - bearerAuth: []
+      - bearerAuth: [ ]
     responses:
       '200':
         description: Locais listados com sucesso
@@ -26,7 +26,7 @@
     summary: Cria um novo local
     description: Cria um novo local com base nos dados fornecidos.
     security:
-      - bearerAuth: []
+      - bearerAuth: [ ]
     requestBody:
       required: true
       content:
@@ -68,7 +68,7 @@
     summary: Atualiza um local existente
     description: Atualiza os dados de um local existente com base no ID fornecido.
     security:
-      - bearerAuth: []
+      - bearerAuth: [ ]
     parameters:
       - in: path
         name: id
@@ -118,7 +118,7 @@
     summary: Exclui um local existente
     description: Exclui um local existente com base no ID fornecido.
     security:
-      - bearerAuth: []
+      - bearerAuth: [ ]
     parameters:
       - in: path
         name: id

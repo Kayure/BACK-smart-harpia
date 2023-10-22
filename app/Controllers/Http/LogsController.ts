@@ -55,7 +55,7 @@ export default class LogsController {
     //Marca o horário de saída
     log.leavedAt = DateTime.now()
 
-    log.save()
+    await log.save()
 
     return response.ok({ log })
   }
