@@ -28,8 +28,8 @@ export default class CreateUserValidator {
     name: schema.string({}),
     password: schema.string({}, [rules.minLength(4)]),
     email: schema.string({}, [rules.email()]),
+    imagePath: schema.string.optional(),
     instituition: schema.number([rules.exists({ table: 'instituitions', column: 'id' })]),
-    occupation: schema.number([rules.exists({ table: 'occupations', column: 'id' })]),
   })
 
   /**

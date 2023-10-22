@@ -26,12 +26,12 @@ export default class UpdateMdevValidator {
    */
   public schema = schema.create({
     name: schema.string(),
-    nickname: schema.string.optional(),
     latitude: schema.string(),
     longitude: schema.string(),
-    local: schema.number([rules.exists({ table: 'locals', column: 'id' })]),
-    energy: schema.number(),
+    signalStrenght: schema.string.optional(),
+    imagePath: schema.string.optional(),
     active: schema.boolean(),
+    local: schema.number([rules.exists({ table: 'locals', column: 'id' })]),
   })
 
   /**

@@ -1,4 +1,5 @@
-import { schema, CustomMessages } from '@ioc:Adonis/Core/Validator'
+import { CustomMessages, schema } from '@ioc:Adonis/Core/Validator'
+
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class CreateInstituitionValidator {
@@ -25,7 +26,8 @@ export default class CreateInstituitionValidator {
    */
   public schema = schema.create({
     name: schema.string({}),
-    abbreviation: schema.string({}),
+    abbreviation: schema.string.optional(),
+    imagePath: schema.string.optional(),
   })
 
   /**

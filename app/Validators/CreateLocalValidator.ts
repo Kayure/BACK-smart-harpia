@@ -26,10 +26,7 @@ export default class CreateLocalValidator {
    */
   public schema = schema.create({
     name: schema.string(),
-    nickname: schema.string.optional(),
-    description: schema.string(),
-    latitude: schema.string(),
-    longitude: schema.string(),
+    instituition: schema.number([rules.exists({ table: 'instituitions', column: 'id' })]),
     city: schema.number([rules.exists({ table: 'cities', column: 'id' })]),
   })
 

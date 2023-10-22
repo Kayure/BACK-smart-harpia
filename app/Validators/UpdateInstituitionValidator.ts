@@ -27,6 +27,7 @@ export default class UpdateInstituitionValidator {
   public schema = schema.create({
     name: schema.string({}),
     abbreviation: schema.string({}),
+    imagePath: schema.string.optional(),
   })
 
   /**
