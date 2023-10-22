@@ -9,7 +9,6 @@ import {
   HasMany,
 } from '@ioc:Adonis/Lucid/Orm'
 import Instituition from 'App/Models/Instituition'
-import Occupation from 'App/Models/Occupation'
 import { DateTime } from 'luxon'
 
 import LinkToken from './LinkToken'
@@ -25,28 +24,31 @@ export default class User extends BaseModel {
   public email: string
 
   @column()
+  public active: boolean
+
+  @column()
+  public admin: boolean
+
+  @column()
+  public systemAdmin: boolean
+
+  @column()
+  public imagePath: string
+
+  @column()
   public instituitionId: number
 
   @belongsTo(() => Instituition)
   public instituition: BelongsTo<typeof Instituition>
-
-  @column()
-  public occupationId: number
-
-  @belongsTo(() => Occupation)
-  public occupation: BelongsTo<typeof Occupation>
-
-  @column({ serializeAs: null })
-  public password: string
-
-  @column()
-  public active: boolean
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @column({ serializeAs: null })
+  public password: string
 
   @hasMany(() => LinkToken, {
     foreignKey: 'userId',

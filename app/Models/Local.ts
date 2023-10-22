@@ -2,6 +2,7 @@ import { BaseModel, belongsTo, BelongsTo, column, hasMany, HasMany } from '@ioc:
 import { DateTime } from 'luxon'
 
 import City from './City'
+import Instituition from './Instituition'
 import Mdev from './Mdev'
 
 export default class Local extends BaseModel {
@@ -12,16 +13,10 @@ export default class Local extends BaseModel {
   public name: string
 
   @column()
-  public nickname: string
+  public instituitionId: number
 
-  @column()
-  public description: string
-
-  @column()
-  public latitude: string
-
-  @column()
-  public longitude: string
+  @belongsTo(() => Instituition)
+  public instituition: BelongsTo<typeof Instituition>
 
   @column()
   public cityId: number
