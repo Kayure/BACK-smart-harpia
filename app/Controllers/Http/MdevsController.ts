@@ -5,7 +5,7 @@ import Mdev from 'App/Models/Mdev'
 import CreateMdevValidator from 'App/Validators/CreateMdevValidator'
 import UpdateMdevValidator from 'App/Validators/UpdateMdevValidator'
 
-// import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class MdevsController {
   public async store({ request, response }: HttpContext) {
@@ -19,21 +19,22 @@ export default class MdevsController {
     return response.created({ mdev })
   }
 
-  public async update({ request, response }: HttpContext) {
-    const { name, nickname, latitude, longitude, local, active, energy } = await request.validate(
-      UpdateMdevValidator
-    )
+  public async update({ request, response, bouncer }: HttpContextContract) {
+    const { name, latitude, longitude, local, active, imagePath, signalStrenght } =
+      await request.validate(UpdateMdevValidator)
 
     const id = request.param('id')
     const mdev = await Mdev.findOrFail(id)
+
+    await bouncer.authorize('updateMdev', mdev)
+
+    if (imagePath !== undefined) mdev.imagePath = imagePath
+    if (signalStrenght !== undefined) mdev.signalStrenght = signalStrenght
 
     mdev.name = name
     mdev.latitude = latitude
     mdev.longitude = longitude
     mdev.active = active
-    mdev.energy = energy
-
-    if (nickname !== undefined) mdev.nickname = nickname
 
     const newLocal = await Local.findOrFail(local)
     await mdev.related('local').associate(newLocal)

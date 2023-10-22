@@ -1,10 +1,11 @@
 import { HttpContext } from '@adonisjs/core/build/standalone'
 import City from 'App/Models/City'
+import Instituition from 'App/Models/Instituition'
 import Local from 'App/Models/Local'
 import CreateLocalValidator from 'App/Validators/CreateLocalValidator'
 import UpdateLocalValidator from 'App/Validators/UpdateLocalValidator'
 
-// import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class LocalsController {
   public async store({ request, response }: HttpContext) {
@@ -12,28 +13,29 @@ export default class LocalsController {
 
     const local = await Local.create(localPayLoad)
 
+    const instituition = await Instituition.findOrFail(localPayLoad.instituition)
+    await local.related('instituition').associate(instituition)
+
     const city = await City.findOrFail(localPayLoad.city)
     await local.related('city').associate(city)
 
     return response.created({ local })
   }
 
-  public async update({ request, response }: HttpContext) {
-    const { name, description, latitude, longitude, city, nickname } = await request.validate(
-      UpdateLocalValidator
-    )
+  public async update({ request, response, bouncer }: HttpContextContract) {
+    const { name, city, instituition } = await request.validate(UpdateLocalValidator)
     const id = request.param('id')
     const local = await Local.findOrFail(id)
 
-    local.name = name
-    local.description = description
-    local.latitude = latitude
-    local.longitude = longitude
-
-    if (nickname !== undefined) local.nickname = nickname
+    await bouncer.authorize('updateLocal', local)
 
     const newCity = await City.findOrFail(city)
     await local.related('city').associate(newCity)
+
+    const newInstituition = await Instituition.findOrFail(instituition)
+    await local.related('instituition').associate(newInstituition)
+
+    local.name = name
 
     await local.save()
 

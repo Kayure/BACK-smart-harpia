@@ -1,4 +1,5 @@
 import { HttpContext } from '@adonisjs/core/build/standalone'
+import { string } from '@ioc:Adonis/Core/Helpers'
 import Device from 'App/Models/Device'
 import Mdev from 'App/Models/Mdev'
 import CreateDeviceValidator from 'App/Validators/CreateDeviceValidator'
@@ -56,6 +57,23 @@ export default class DevicesController {
     const id = request.param('id')
 
     const device = await Device.findOrFail(id)
+
+    return response.ok({ device })
+  }
+
+  public async deleteMacByMac({ request, response }: HttpContext) {
+    const macAddress = request.param('macAddress').toString()
+
+    //transformar macAddress em string
+
+    console.log(macAddress)
+
+    const device = await Device.findByOrFail('macAddress', macAddress)
+
+    device.macAddress =
+      'Endereço MAC deletado por motivos de privacidade. ' + string.generateRandom(32)
+
+    device.save()
 
     return response.ok({ device })
   }

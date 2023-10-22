@@ -1,7 +1,6 @@
 import { HttpContext } from '@adonisjs/core/build/standalone'
 import Database from '@ioc:Adonis/Lucid/Database'
 import Device from 'App/Models/Device'
-import Local from 'App/Models/Local'
 import Log from 'App/Models/Log'
 import Mdev from 'App/Models/Mdev'
 import CreateLogValidator from 'App/Validators/CreateLogValidator'
@@ -121,31 +120,5 @@ export default class LogsController {
       result[mdev_id].push({ hourEntered, uniqueDeviceCount })
       return result
     }, {})
-  }
-
-  public async listByLocal({ request, response }: HttpContext) {
-    const id = request.param('id')
-    const { realtime } = request.qs()
-
-    const local = await Local.findOrFail(id)
-    await local.load('mdevs')
-
-    const mdevs = local.mdevs
-
-    for (let i = 0; i < mdevs.length; i++) {
-      let mdev = mdevs[i]
-
-      if (realtime) {
-        await mdev.load('logs', (logQuery) => {
-          logQuery.whereNull('leaved_at').preload('device')
-        })
-      } else {
-        await mdev.load('logs', (loader) => {
-          loader.preload('device')
-        })
-      }
-    }
-
-    return response.ok(local)
   }
 }

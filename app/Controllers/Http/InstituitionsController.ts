@@ -1,4 +1,5 @@
 import { HttpContext } from '@adonisjs/core/build/standalone'
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Instituition from 'App/Models/Instituition'
 import CreateInstituitionValidator from 'App/Validators/CreateInstituitionValidator'
 import UpdateInstituitionValidator from 'App/Validators/UpdateInstituitionValidator'
@@ -13,11 +14,15 @@ export default class InstituitionsController {
     return response.created({ instituition })
   }
 
-  public async update({ request, response }: HttpContext) {
-    const { name, abbreviation } = await request.validate(UpdateInstituitionValidator)
+  public async update({ request, response, bouncer }: HttpContextContract) {
+    const { name, abbreviation, imagePath } = await request.validate(UpdateInstituitionValidator)
     const id = request.param('id')
 
     const instituition = await Instituition.findOrFail(id)
+
+    await bouncer.authorize('updateInstituition', instituition)
+
+    if (imagePath !== undefined) instituition.imagePath = imagePath
 
     instituition.name = name
     instituition.abbreviation = abbreviation
