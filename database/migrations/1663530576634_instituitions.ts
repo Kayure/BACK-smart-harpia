@@ -7,7 +7,9 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
       table.string('name', 255).notNullable()
-      table.string('abbreviation', 255).notNullable()
+      table.string('image_path', 255).nullable()
+      table.boolean('active').defaultTo(true)
+      table.string('abbreviation', 255).nullable()
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
