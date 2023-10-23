@@ -45,6 +45,9 @@ export const { actions } = Bouncer.define('updateUser', (user: User, updatedUser
   .define('updateMdev', (user: User, updatedMdev: Mdev) => {
     return user.institutionId === updatedMdev.local.institutionId && user.admin
   })
+  .define('createUser', (user: User, newInstitutionId: Number) => {
+    return user.institutionId === newInstitutionId && user.admin
+  })
 
 Bouncer.before((user: User | null) => {
   if (user && user.systemAdmin) {

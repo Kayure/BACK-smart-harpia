@@ -8,8 +8,10 @@ import UpdateUserValidator from 'App/Validators/UpdateUserValidator'
 
 export default class UsersController {
   // Método para criar um usuário
-  public async store({ request, response }: HttpContext) {
+  public async store({ request, response, bouncer }: HttpContextContract) {
     const userPayLoad = await request.validate(CreateUserValidator)
+
+    await bouncer.authorize('createUser', userPayLoad.institution)
 
     // Verificando se o e-mail já está em uso
     const userByEmail = await User.findBy('email', userPayLoad.email)
