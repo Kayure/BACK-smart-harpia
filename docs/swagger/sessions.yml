@@ -55,7 +55,7 @@
     summary: Obtém a sessão ativa do usuário
     description: Obtém os detalhes do usuário autenticado.
     security:
-      - bearerAuth: [ ]
+      - bearerAuth: []
     responses:
       '200':
         description: Sessão obtida com sucesso
@@ -84,13 +84,12 @@
     summary: Encerra a sessão ativa do usuário
     description: Encerra a sessão do usuário autenticado.
     security:
-      - bearerAuth: [ ]
+      - bearerAuth: []
     responses:
       '200':
         description: Sessão encerrada com sucesso
       '401':
         description: Não autorizado
-
 /google/redirect:
   get:
     tags:
@@ -100,7 +99,6 @@
     responses:
       '200':
         description: Redirecionamento bem-sucedido
-
 /google/callback:
   get:
     tags:
@@ -114,15 +112,16 @@
         description: Acesso negado ou requisição expirada
       '401':
         description: Erro de autenticação do Google
-
 /sessions/google:
   post:
     tags:
       - Session
     summary: Troca de Token após Autenticação com Google
-    description: Troca o token de autenticação após a autenticação bem-sucedida com o Google.
+    description: >-
+      Troca o token de autenticação após a autenticação bem-sucedida com o
+      Google.
     security:
-      - bearerAuth: [ ]
+      - bearerAuth: []
     responses:
       '201':
         description: Troca de token bem-sucedida
@@ -132,7 +131,7 @@
               type: object
               properties:
                 user:
-                  $ref: '#/components/schemas/User'
+                  $ref: 'schemas.yml#/User'
                 token:
                   type: string
                   description: Novo token de autenticação

@@ -20,18 +20,19 @@
               instituition:
                 type: integer
                 description: O ID da instituição associada ao novo usuário.
-              occupation:
-                type: integer
-                description: O ID da ocupação associada ao novo usuário.
               password:
                 type: string
                 description: A senha do novo usuário.
     responses:
       '201':
         description: Usuário criado com sucesso
+      '401':
+        $ref: 'responses.yml#/Unauthorized'
       '409':
         description: E-mail já em uso
-/users/{id}:
+      '422':
+        $ref: 'responses.yml#/UnprocessableEntity'
+'/users/{id}':
   put:
     tags:
       - User
@@ -59,7 +60,7 @@
                 type: string
                 description: O novo endereço de e-mail do usuário.
     security:
-      - bearerAuth: [ ]
+      - bearerAuth: []
     responses:
       '200':
         description: Usuário atualizado com sucesso
@@ -67,8 +68,9 @@
         description: Não autorizado a atualizar este usuário
       '409':
         description: Novo e-mail já em uso
-
-/users/{id}/deactivate:
+      '422':
+        $ref: 'responses.yml#/UnprocessableEntity'
+'/users/{id}/deactivate':
   patch:
     tags:
       - User
@@ -83,9 +85,11 @@
           type: integer
           format: int64
     security:
-      - bearerAuth: [ ]
+      - bearerAuth: []
     responses:
       '204':
         description: Usuário desativado com sucesso
       '401':
         description: Não autorizado a desativar este usuário
+      '422':
+        $ref: 'responses.yml#/UnprocessableEntity'

@@ -8,17 +8,28 @@ paths:
         required: true
         content:
           application/json:
+            example:
+              macAddress: '4E:84:81:2A:5C:18'
+              mdevId: 1
             schema:
-              $ref: '#/components/schemas/CreateLogPayload'
+              type: object
+              properties:
+                macAddress:
+                  type: string
+                  format: mac
+                  example: '4E:84:81:2A:5C:18'
+                mdevId:
+                  type: integer
+                  example: 1
       responses:
         '201':
           description: Log de entrada registrado com sucesso.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Log'
+                $ref: 'schemas.yml#/Log'
         '422':
-          $ref: '#/components/responses/UnprocessableEntity'
+          $ref: 'responses.yml#/UnprocessableEntity'
 
   /logs/out:
     put:
@@ -29,14 +40,25 @@ paths:
         required: true
         content:
           application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateLogPayload'
+          example:
+            macAddress: '4E:84:81:2A:5C:18'
+            mdevId: 1
+          schema:
+            type: object
+            properties:
+              macAddress:
+                type: string
+                format: mac
+                example: '4E:84:81:2A:5C:18'
+              mdevId:
+                type: integer
+                example: 1
       responses:
         '200':
           description: Log de saída registrado com sucesso.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Log'
+                $ref: 'schemas.yml#/Log'
         '422':
-          $ref: '#/components/responses/UnprocessableEntity'
+          $ref: 'responses.yml#/UnprocessableEntity'

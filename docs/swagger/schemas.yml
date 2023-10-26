@@ -1,0 +1,249 @@
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        active:
+          type: boolean
+        admin:
+          type: boolean
+        systemAdmin:
+          type: boolean
+        imagePath:
+          type: string
+        institutionId:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        password:
+          type: string
+        tokens:
+          type: array
+          items:
+            $ref: '#/components/schemas/LinkToken'
+    State:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        abbreviation:
+          type: string
+        cities:
+          type: array
+          items:
+            $ref: '#/components/schemas/City'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    Log:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        deviceId:
+          type: integer
+          format: int64
+        device:
+          $ref: '#/components/schemas/Device'
+        mdevId:
+          type: integer
+          format: int64
+        mdev:
+          $ref: '#/components/schemas/Mdev'
+        enteredAt:
+          type: string
+          format: date-time
+        leavedAt:
+          type: string
+          format: date-time
+    Local:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        institutionId:
+          type: integer
+        cityId:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        mdevs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mdev'
+      required:
+        - id
+        - name
+        - institutionId
+        - cityId
+        - createdAt
+        - updatedAt
+    LinkToken:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        token:
+          type: string
+        userId:
+          type: integer
+        user:
+          $ref: '#/components/schemas/User'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    Institution:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        abbreviation:
+          type: string
+        active:
+          type: boolean
+        imagePath:
+          type: string
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        locales:
+          type: array
+          items:
+            $ref: '#/components/schemas/Local'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    Device:
+      type: object
+      properties:
+        id:
+          type: integer
+        macAddress:
+          type: string
+        name:
+          type: string
+        mdevId:
+          type: integer
+      required:
+        - id
+        - macAddress
+        - name
+        - mdevId
+    Debug:
+      type: object
+      properties:
+        id:
+          type: integer
+        message:
+          type: string
+        mdevId:
+          type: integer
+        mdev:
+          $ref: '#/components/schemas/Mdev'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    City:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        stateId:
+          type: integer
+          format: int64
+        state:
+          $ref: '#/components/schemas/State'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        locals:
+          type: array
+          items:
+            $ref: '#/components/schemas/Local'
+    Mdev:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        latitude:
+          type: string
+        longitude:
+          type: string
+        signalStrength:
+          type: string
+        imagePath:
+          type: string
+        active:
+          type: boolean
+        localId:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        devices:
+          type: array
+          items:
+            $ref: '#/components/schemas/Device'
+        logs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Log'
+      required:
+        - id
+        - name
+        - latitude
+        - longitude
+        - signalStrength
+        - imagePath
+        - active
+        - localId
+        - cityId
+        - createdAt
+        - updatedAt

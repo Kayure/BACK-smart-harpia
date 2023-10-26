@@ -20,6 +20,8 @@
     responses:
       '201':
         description: Instituição criada com sucesso
+      '401':
+        $ref: 'responses.yml#/Unauthorized'
       '422':
         description: Falha na validação dos dados
   get:
@@ -60,6 +62,8 @@
     responses:
       '200':
         description: Instituição atualizada com sucesso
+      '401':
+        $ref: 'responses.yml#/Unauthorized'
       '404':
         description: Instituição não encontrada
       '422':
@@ -80,5 +84,7 @@
     responses:
       '204':
         description: Instituição excluída com sucesso
+      '401':
+        $ref: 'responses.yml#/Unauthorized'
       '404':
         description: Instituição não encontrada

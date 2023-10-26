@@ -34,12 +34,6 @@ export default class Mdev extends BaseModel {
   @belongsTo(() => Local)
   public local: BelongsTo<typeof Local>
 
-  @column()
-  public cityId: number
-
-  @belongsTo(() => City)
-  public city: BelongsTo<typeof City>
-
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
