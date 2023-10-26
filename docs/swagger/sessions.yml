@@ -131,7 +131,7 @@
               type: object
               properties:
                 user:
-                  $ref: 'schemas.yml#/User'
+                  $ref: '#/components/schemas/User'
                 token:
                   type: string
                   description: Novo token de autenticação

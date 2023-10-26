@@ -17,9 +17,9 @@
                 devices:
                   type: array
                   items:
-                    $ref: 'schemas.yml#/Device'
+                    $ref: '#/components/schemas/Device'
       '401':
-        $ref: 'responses.yml#/Unauthorized'
+        $ref: '#/components/responses/Unauthorized'
       '404':
         description: Nenhum Dispositivo encontrado
   post:
@@ -33,17 +33,28 @@
       required: true
       content:
         application/json:
+          example:
+            macAddress: '4E:84:81:2A:5C:18'
+            mdevId: 1
           schema:
-            $ref: '#/components/schemas/CreateDevicePayload'
+            type: object
+            properties:
+              macAddress:
+                type: string
+                format: mac
+                example: '4E:84:81:2A:5C:18'
+              mdevId:
+                type: integer
+                example: 1
     responses:
       '201':
         description: Dispositivo criado com sucesso
         content:
           application/json:
             schema:
-              $ref: 'schemas.yml#/Device'
+                $ref: '#/components/schemas/Device'
       '401':
-        $ref: 'responses.yml#/Unauthorized'
+        $ref: '#/components/responses/Unauthorized'
       '422':
         description: Dados de entrada inválidos
 '/devices/{id}':
@@ -67,9 +78,9 @@
         content:
           application/json:
             schema:
-              $ref: 'schemas.yml#/Device'
+              $ref: '#/components/schemas/Device'
       '401':
-        $ref: 'responses.yml#/Unauthorized'
+        $ref: '#/components/responses/Unauthorized'
       '404':
         description: Dispositivo não encontrado
   put:
@@ -90,17 +101,28 @@
       required: true
       content:
         application/json:
+          example:
+            macAddress: '4E:84:81:2A:5C:18'
+            mdevId: 1
           schema:
-            $ref: '#/components/schemas/UpdateDevicePayload'
+            type: object
+            properties:
+              macAddress:
+                type: string
+                format: mac
+                example: '4E:84:81:2A:5C:18'
+              mdevId:
+                type: integer
+                example: 1
     responses:
       '200':
         description: Dispositivo atualizado com sucesso
         content:
           application/json:
             schema:
-              $ref: 'schemas.yml#/Device'
+                    $ref: '#/components/schemas/Device'
       '401':
-        $ref: 'responses.yml#/Unauthorized'
+        $ref: '#/components/responses/Unauthorized'
       '404':
         description: Dispositivo não encontrado
       '422':
@@ -123,6 +145,6 @@
       '204':
         description: Dispositivo excluído com sucesso
       '401':
-        $ref: 'responses.yml#/Unauthorized'
+        $ref: '#/components/responses/Unauthorized'
       '404':
         description: Dispositivo não encontrado

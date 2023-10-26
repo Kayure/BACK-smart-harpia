@@ -17,7 +17,7 @@
                 mdevs:
                   type: array
                   items:
-                    $ref: 'schemas.yml#/Mdev'
+                    $ref: '#/components/schemas/Mdev'
       '401':
         description: Não autorizado
   post:
@@ -61,13 +61,13 @@
         content:
           application/json:
             schema:
-              $ref: 'schemas.yml#/Mdev'
+              $ref: '#/components/schemas/Mdev'
       '400':
         description: Falha na requisição de criação de Mdev
       '401':
-        $ref: 'responses.yml#/Unauthorized'
+        $ref: '#/components/responses/Unauthorized'
       '422':
-        $ref: 'responses.yml#/UnprocessableEntity'
+        $ref: '#/components/responses/UnprocessableEntity'
 '/mdevs/{id}':
   put:
     tags:
@@ -117,15 +117,15 @@
         content:
           application/json:
             schema:
-              $ref: 'schemas.yml#/Mdev'
+              $ref: '#/components/schemas/Mdev'
       '400':
         description: Falha na requisição de atualização de Mdev
       '401':
-        $ref: 'responses.yml#/Unauthorized'
+        $ref: '#/components/responses/Unauthorized'
       '404':
         description: Mdev não encontrado
       '422':
-        $ref: 'responses.yml#/UnprocessableEntity'
+        $ref: '#/components/responses/UnprocessableEntity'
   post:
     tags:
       - Mdev
@@ -167,8 +167,8 @@
         content:
           application/json:
             schema:
-              $ref: 'schemas.yml#/Mdev'
+              $ref: '#/components/schemas/Mdev'
       '401':
-        $ref: 'responses.yml#/Unauthorized'
+        $ref: '#/components/responses/Unauthorized'
       '404':
         description: Mdev não encontrado

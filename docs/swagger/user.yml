@@ -4,6 +4,8 @@
       - User
     summary: Cria um novo usuário
     description: Cria um novo usuário com base nos dados fornecidos.
+    security:
+      - bearerAuth: []
     requestBody:
       required: true
       content:
@@ -27,11 +29,11 @@
       '201':
         description: Usuário criado com sucesso
       '401':
-        $ref: 'responses.yml#/Unauthorized'
+        $ref: '#/components/responses/Unauthorized'
       '409':
         description: E-mail já em uso
       '422':
-        $ref: 'responses.yml#/UnprocessableEntity'
+        $ref: '#/components/responses/UnprocessableEntity'
 '/users/{id}':
   put:
     tags:
@@ -69,7 +71,7 @@
       '409':
         description: Novo e-mail já em uso
       '422':
-        $ref: 'responses.yml#/UnprocessableEntity'
+        $ref: '#/components/responses/UnprocessableEntity'
 '/users/{id}/deactivate':
   patch:
     tags:
@@ -92,4 +94,4 @@
       '401':
         description: Não autorizado a desativar este usuário
       '422':
-        $ref: 'responses.yml#/UnprocessableEntity'
+        $ref: '#/components/responses/UnprocessableEntity'

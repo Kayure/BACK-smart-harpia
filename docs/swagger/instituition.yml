@@ -4,6 +4,8 @@
       - Institution
     summary: Cria uma nova instituição
     description: Cria uma nova instituição com base nos dados fornecidos.
+    security:
+      - bearerAuth: []
     requestBody:
       required: true
       content:
@@ -21,7 +23,7 @@
       '201':
         description: Instituição criada com sucesso
       '401':
-        $ref: 'responses.yml#/Unauthorized'
+        $ref: '#/components/responses/Unauthorized'
       '422':
         description: Falha na validação dos dados
   get:
@@ -29,6 +31,8 @@
       - Institution
     summary: Retorna a lista de instituições
     description: Retorna uma lista de todas as instituições registradas.
+    security:
+      - bearerAuth: []
     responses:
       '200':
         description: Uma matriz JSON de instituições
@@ -38,6 +42,8 @@
       - Institution
     summary: Atualiza uma instituição
     description: Atualiza uma instituição existente com base no ID fornecido.
+    security:
+      - bearerAuth: []
     parameters:
       - in: path
         name: id
@@ -63,7 +69,7 @@
       '200':
         description: Instituição atualizada com sucesso
       '401':
-        $ref: 'responses.yml#/Unauthorized'
+        $ref: '#/components/responses/Unauthorized'
       '404':
         description: Instituição não encontrada
       '422':
@@ -73,6 +79,8 @@
       - Institution
     summary: Exclui uma instituição
     description: Exclui uma instituição existente com base no ID fornecido.
+    security:
+      - bearerAuth: []
     parameters:
       - in: path
         name: id
@@ -85,6 +93,6 @@
       '204':
         description: Instituição excluída com sucesso
       '401':
-        $ref: 'responses.yml#/Unauthorized'
+        $ref: '#/components/responses/Unauthorized'
       '404':
         description: Instituição não encontrada

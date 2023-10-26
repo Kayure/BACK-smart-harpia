@@ -17,9 +17,9 @@
                 locals:
                   type: array
                   items:
-                    $ref: 'schemas.yml#/Local'
+                    $ref: '#/components/schemas/Local'
       '401':
-        $ref: 'responses.yml#/Unauthorized'
+        $ref: '#/components/responses/Unauthorized'
   post:
     tags:
       - Local
@@ -58,13 +58,13 @@
         content:
           application/json:
             schema:
-              $ref: 'schemas.yml#/Local'
+              $ref: '#/components/schemas/Local'
       '400':
         description: Falha na requisição de criação de local
       '401':
-        $ref: 'responses.yml#/Unauthorized'
+        $ref: '#/components/responses/Unauthorized'
       '422':
-        $ref: 'responses.yml#/UnprocessableEntity'
+        $ref: '#/components/responses/UnprocessableEntity'
 '/locals/{id}':
   put:
     tags:
@@ -111,15 +111,15 @@
         content:
           application/json:
             schema:
-              $ref: 'schemas.yml#/Local'
+              $ref: '#/components/schemas/Local'
       '400':
         description: Falha na requisição de atualização de local
       '401':
-        $ref: 'responses.yml#/Unauthorized'
+        $ref: '#/components/responses/Unauthorized'
       '404':
         description: Local não encontrado
       '422':
-        $ref: 'responses.yml#/UnprocessableEntity'
+        $ref: '#/components/responses/UnprocessableEntity'
   delete:
     tags:
       - Local
