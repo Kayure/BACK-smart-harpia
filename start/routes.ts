@@ -23,16 +23,22 @@ import Route from '@ioc:Adonis/Core/Route'
 Route.group(() => {
   Route.get('', 'InstitutionsController.read')
   Route.post('', 'InstitutionsController.store')
+
   Route.put('/:id', 'InstitutionsController.update')
   Route.delete('/:id', 'InstitutionsController.destroy')
+  Route.get('/allowed', 'InstitutionsController.readAllowedInstitutions')
+  Route.get('/:id', 'InstitutionsController.getInstitutionById')
+  Route.get('/:id/users', 'InstitutionsController.getInstitutionUsersById')
+  Route.get('/:id/locals', 'InstitutionsController.getInstitutionLocalsById')
 })
   .prefix('/institutions')
   .middleware('auth')
 
 Route.group(() => {
   Route.post('', 'UsersController.store')
-  Route.put('/:id', 'UsersController.update').middleware('auth')
-  Route.delete('/:id', 'UsersController.deactivate').middleware('auth')
+  Route.put('/:id', 'UsersController.update')
+  Route.delete('/:id', 'UsersController.deactivate')
+  Route.get('/:id', 'UsersController.getUserById')
 })
   .prefix('/users')
   .middleware('auth')
@@ -48,6 +54,8 @@ Route.group(() => {
   Route.get('', 'LocalsController.read')
   Route.post('', 'LocalsController.store')
   Route.put('/:id', 'LocalsController.update')
+  Route.get('/:id', 'LocalsController.getLocalById')
+  Route.get(':id/mdevs', 'LocalsController.getLocalMdevsById')
   Route.delete('/:id', 'LocalsController.destroy')
 })
   .prefix('/locals')
@@ -56,6 +64,7 @@ Route.group(() => {
 Route.group(() => {
   Route.get('', 'MdevsController.read')
   Route.get('/:id', 'MdevsController.getMdevByID')
+  Route.get('/:id/devices', 'MdevsController.getMdevDevicesById')
   Route.post('', 'MdevsController.store')
   Route.put('/:id', 'MdevsController.update')
   Route.delete('/:id', 'MdevsController.destroy')
@@ -78,7 +87,7 @@ Route.group(() => {
 Route.group(() => {
   Route.get('/local/:id', 'LogsController.listByLocal')
   Route.get('/mdev/:id', 'LogsController.listByMdev')
-  Route.get('/report', 'LogsController.generateReport')
+  Route.get('/mdev/:id/report', 'LogsController.generateReport')
   Route.post('/in', 'LogsController.store')
   Route.put('/out', 'LogsController.update')
 }).prefix('/logs')
@@ -90,4 +99,4 @@ Route.get('/google/redirect', 'SessionsController.googleRedirect')
 Route.get('/google/callback', 'SessionsController.googleLogin')
 Route.post('/sessions/google', 'SessionsController.exchangeToken')
 
-Route.patch('/devices/:macAddress', 'DevicesController.deleteMacByMac')
+Route.post('/devices/:macAddress', 'DevicesController.deleteMacByMac')
