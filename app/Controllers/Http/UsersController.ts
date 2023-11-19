@@ -29,7 +29,7 @@ export default class UsersController {
 
   // Método para atualizar os dados de um usuário
   public async update({ request, response, bouncer }: HttpContextContract) {
-    const { email, name, imagePath } = await request.validate(UpdateUserValidator)
+    const { email, name, imagePath, active, admin } = await request.validate(UpdateUserValidator)
     const id = request.param('id')
     const user = await User.findOrFail(id)
 
@@ -42,7 +42,14 @@ export default class UsersController {
     if (userByEmail && userByEmail.id !== user.id)
       throw new BadRequestException('email already in use', 409)
 
-    if (imagePath !== undefined) user.imagePath = imagePath
+    if (imagePath) {
+      user.imagePath = imagePath
+    } else {
+      user.imagePath = ''
+    }
+
+    if (active !== undefined) user.active = active
+    if (admin !== undefined) user.admin = admin
 
     user.email = email
     user.name = name
@@ -63,5 +70,14 @@ export default class UsersController {
     await user.save()
 
     return response.noContent()
+  }
+
+  // Método para obter um usuário por ID
+  public async getUserById({ request, response }: HttpContext) {
+    const id = request.param('id')
+
+    const user = await User.findOrFail(id)
+
+    return response.ok({ user })
   }
 }

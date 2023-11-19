@@ -6,6 +6,7 @@ import CreateMdevValidator from 'App/Validators/CreateMdevValidator'
 import UpdateMdevValidator from 'App/Validators/UpdateMdevValidator'
 
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Device from 'App/Models/Device'
 
 export default class MdevsController {
   // Método para criar um dispositivo Mdev
@@ -31,7 +32,11 @@ export default class MdevsController {
     await bouncer.authorize('updateMdev', mdev)
 
     // Atualizar os campos do dispositivo Mdev
-    if (imagePath !== undefined) mdev.imagePath = imagePath
+    if (imagePath) {
+      mdev.imagePath = imagePath
+    } else {
+      mdev.imagePath = ''
+    }
     if (signalStrength !== undefined) mdev.signalStrength = signalStrength
 
     mdev.name = name
@@ -84,5 +89,14 @@ export default class MdevsController {
       .update({ leaved_at: new Date(), reseted: 1 })
 
     return response.noContent()
+  }
+
+  // Retorna todos devices associados ao mdev
+  public async getMdevDevicesById({ request, response }: HttpContext) {
+    const id = request.param('id')
+
+    const devices = await Device.query().where('mdev_id', id)
+
+    return response.ok({ devices })
   }
 }

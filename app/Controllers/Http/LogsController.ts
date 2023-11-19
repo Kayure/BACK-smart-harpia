@@ -63,16 +63,30 @@ export default class LogsController {
   // Método para listar logs por Mdev
   public async listByMdev({ request, response }: HttpContext) {
     const id = request.param('id')
-    const { realtime } = request.qs()
+    let { realtime, page } = request.qs()
+
+    if (!page) page = 1
+
+    // Defina a quantidade de itens por página
+    const itemsPerPage = 100
+
+    // Calcule o índice inicial com base no número da página
+    const startIndex = (page - 1) * itemsPerPage
 
     const mdev = await Mdev.findOrFail(id)
-    if (realtime) {
+
+    if (realtime === 'true' || realtime === true) {
       await mdev.load('logs', (logQuery) => {
-        logQuery.whereNull('leaved_at').preload('device')
+        logQuery
+          .whereNull('leaved_at')
+          .preload('device')
+          .orderBy('id', 'desc')
+          .offset(startIndex)
+          .limit(itemsPerPage)
       })
     } else {
       await mdev.load('logs', (loader) => {
-        loader.preload('device')
+        loader.preload('device').orderBy('id', 'desc').offset(startIndex).limit(itemsPerPage)
       })
     }
 
@@ -80,36 +94,33 @@ export default class LogsController {
   }
 
   // Método para gerar um relatório
-  public async generateReport({ response }: HttpContext) {
+  public async generateReport({ request, response }: HttpContext) {
+    const id = request.param('id')
+
     try {
-      const data = await Database.query()
-        .select(
-          'mdev_id',
-          Database.raw('HOUR(entered_at) AS hourEntered'),
-          Database.raw('COUNT(DISTINCT device_id) AS uniqueDeviceCount')
-        )
-        .from('logs')
-        .whereRaw('entered_at >= NOW() - INTERVAL 24 HOUR')
-        .groupBy('mdev_id', 'hourEntered')
-        .orderBy('mdev_id')
-        .orderBy('hourEntered')
+      // Aplicar a consulta SQL apenas para o mdev com mdev_id == id
+      const data = await Database.rawQuery(
+        `
+        SELECT
+          DATE_FORMAT(entered_at, '%Y-%m-%d %H:00:00') as hour_interval,
+          COUNT(DISTINCT device_id) as unique_devices_count
+        FROM
+          logs
+        WHERE
+          mdev_id = ?
+          AND entered_at IS NOT NULL
+        GROUP BY
+          hour_interval
+        ORDER BY
+          hour_interval
+      `,
+        [id]
+      )
 
-      const groupedData = this.groupDataByMdevId(data)
-
-      return response.ok(groupedData)
+      // Retornar os dados
+      return response.ok(data[0])
     } catch (error) {
       return response.badRequest({ message: 'No data found' })
     }
-  }
-
-  // Método privado para agrupar dados por mdev_id
-  private groupDataByMdevId(data: any[]) {
-    return data.reduce((result, { mdev_id, hourEntered, uniqueDeviceCount }) => {
-      if (!result[mdev_id]) {
-        result[mdev_id] = []
-      }
-      result[mdev_id].push({ hourEntered, uniqueDeviceCount })
-      return result
-    }, {})
   }
 }
