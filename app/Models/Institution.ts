@@ -1,9 +1,10 @@
 import { BaseModel, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
 
-import City from './City'
+import Local from './Local'
+import User from './User'
 
-export default class State extends BaseModel {
+export default class Institution extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
@@ -13,8 +14,17 @@ export default class State extends BaseModel {
   @column()
   public abbreviation: string
 
-  @hasMany(() => City)
-  public cities: HasMany<typeof City>
+  @column()
+  public active: boolean
+
+  @column()
+  public imagePath: string
+
+  @hasMany(() => User)
+  public users: HasMany<typeof User>
+
+  @hasMany(() => Local)
+  public locales: HasMany<typeof Local>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

@@ -7,11 +7,13 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table.string('name').notNullable()
-      table.string('nickname')
       table.string('latitude').notNullable()
       table.string('longitude').notNullable()
       table.boolean('active').defaultTo(true)
       table.integer('local_id').unsigned().references('locals.id').onDelete('CASCADE')
+      table.string('signal_strength').nullable()
+      table.string('image_path').nullable()
+
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

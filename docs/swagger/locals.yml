@@ -1,0 +1,103 @@
+/locals:
+  get:
+    tags:
+      - Local
+    summary: Lista todos os locais
+    description: Retorna uma lista de todos os locais cadastrados.
+    security:
+      - bearerAuth: []
+    responses:
+      '200':
+        description: Locais listados com sucesso
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                locals:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Local'
+      '401':
+        $ref: '#/components/responses/Unauthorized'
+  post:
+    tags:
+      - Local
+    summary: Cria um novo local
+    description: Cria um novo local com base nos dados fornecidos.
+    security:
+      - bearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Local'
+    responses:
+      '201':
+        description: Local criado com sucesso
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Local'
+      '400':
+        description: Falha na requisição de criação de local
+      '401':
+        $ref: '#/components/responses/Unauthorized'
+      '422':
+        $ref: '#/components/responses/UnprocessableEntity'
+'/locals/{id}':
+  put:
+    tags:
+      - Local
+    summary: Atualiza um local existente
+    description: Atualiza os dados de um local existente com base no ID fornecido.
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        description: ID do local a ser atualizado.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Local'
+    responses:
+      '200':
+        description: Local atualizado com sucesso
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Local'
+      '400':
+        description: Falha na requisição de atualização de local
+      '401':
+        $ref: '#/components/responses/Unauthorized'
+      '404':
+        description: Local não encontrado
+      '422':
+        $ref: '#/components/responses/UnprocessableEntity'
+  delete:
+    tags:
+      - Local
+    summary: Exclui um local existente
+    description: Exclui um local existente com base no ID fornecido.
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        description: ID do local a ser excluído.
+    responses:
+      '204':
+        description: Local excluído com sucesso
+      '404':
+        description: Local não encontrado

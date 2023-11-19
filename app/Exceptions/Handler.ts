@@ -14,7 +14,6 @@ import HttpExceptionHandler from '@ioc:Adonis/Core/HttpExceptionHandler'
 | properly.
 |
 */
-
 import Logger from '@ioc:Adonis/Core/Logger'
 
 export default class ExceptionHandler extends HttpExceptionHandler {

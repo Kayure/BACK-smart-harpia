@@ -21,35 +21,41 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.group(() => {
-  Route.get('', 'InstituitionsController.read')
-  Route.post('', 'InstituitionsController.store')
-  Route.put('/:id', 'InstituitionsController.update')
-  Route.delete('/:id', 'InstituitionsController.destroy')
-}).prefix('/instituitions')
+  Route.get('', 'InstitutionsController.read')
+  Route.post('', 'InstitutionsController.store')
 
-Route.group(() => {
-  Route.get('', 'OccupationsController.read')
-  Route.post('', 'OccupationsController.store')
-  Route.put('/:id', 'OccupationsController.update')
-  Route.delete('/:id', 'OccupationsController.destroy')
-}).prefix('/occupations')
+  Route.put('/:id', 'InstitutionsController.update')
+  Route.delete('/:id', 'InstitutionsController.destroy')
+  Route.get('/allowed', 'InstitutionsController.readAllowedInstitutions')
+  Route.get('/:id', 'InstitutionsController.getInstitutionById')
+  Route.get('/:id/users', 'InstitutionsController.getInstitutionUsersById')
+  Route.get('/:id/locals', 'InstitutionsController.getInstitutionLocalsById')
+})
+  .prefix('/institutions')
+  .middleware('auth')
 
 Route.group(() => {
   Route.post('', 'UsersController.store')
-  Route.put('/:id', 'UsersController.update').middleware('auth')
-  Route.delete('/:id', 'UsersController.desactivate').middleware('auth')
-}).prefix('/users')
+  Route.put('/:id', 'UsersController.update')
+  Route.delete('/:id', 'UsersController.deactivate')
+  Route.get('/:id', 'UsersController.getUserById')
+})
+  .prefix('/users')
+  .middleware('auth')
 
 Route.post('/forgot-password', 'PasswordsController.forgotPassword')
 Route.post('/reset-password', 'PasswordsController.resetPassword')
 
 Route.post('/sessions', 'SessionsController.store')
+Route.get('/sessions', 'SessionsController.getSession').middleware('auth')
 Route.delete('/sessions', 'SessionsController.destroy')
 
 Route.group(() => {
   Route.get('', 'LocalsController.read')
   Route.post('', 'LocalsController.store')
   Route.put('/:id', 'LocalsController.update')
+  Route.get('/:id', 'LocalsController.getLocalById')
+  Route.get(':id/mdevs', 'LocalsController.getLocalMdevsById')
   Route.delete('/:id', 'LocalsController.destroy')
 })
   .prefix('/locals')
@@ -57,6 +63,8 @@ Route.group(() => {
 
 Route.group(() => {
   Route.get('', 'MdevsController.read')
+  Route.get('/:id', 'MdevsController.getMdevByID')
+  Route.get('/:id/devices', 'MdevsController.getMdevDevicesById')
   Route.post('', 'MdevsController.store')
   Route.put('/:id', 'MdevsController.update')
   Route.delete('/:id', 'MdevsController.destroy')
@@ -68,6 +76,7 @@ Route.post('/mdevs/:id', 'MdevsController.reset')
 
 Route.group(() => {
   Route.get('', 'DevicesController.read')
+  Route.get('/:id', 'DevicesController.getDeviceByID')
   Route.post('', 'DevicesController.store')
   Route.put('/:id', 'DevicesController.update')
   Route.delete('/:id', 'DevicesController.destroy')
@@ -78,8 +87,16 @@ Route.group(() => {
 Route.group(() => {
   Route.get('/local/:id', 'LogsController.listByLocal')
   Route.get('/mdev/:id', 'LogsController.listByMdev')
+  Route.get('/mdev/:id/report', 'LogsController.generateReport')
   Route.post('/in', 'LogsController.store')
   Route.put('/out', 'LogsController.update')
 }).prefix('/logs')
 
 Route.post('/debug', 'DebugsController.store')
+
+Route.get('/google/redirect', 'SessionsController.googleRedirect')
+
+Route.get('/google/callback', 'SessionsController.googleLogin')
+Route.post('/sessions/google', 'SessionsController.exchangeToken')
+
+Route.post('/devices/:macAddress', 'DevicesController.deleteMacByMac')

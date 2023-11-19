@@ -23,6 +23,9 @@ export default class Log extends BaseModel {
   @belongsTo(() => Mdev)
   public mdev: BelongsTo<typeof Mdev>
 
+  @column()
+  public reseted: boolean
+
   @column.dateTime({ autoCreate: true })
   public enteredAt: DateTime
 

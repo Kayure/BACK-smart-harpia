@@ -3,8 +3,6 @@ import { CustomMessages, rules, schema } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class UpdateUserValidator {
-  constructor(protected ctx: HttpContextContract) {}
-
   /*
    * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
    *
@@ -27,8 +25,10 @@ export default class UpdateUserValidator {
   public schema = schema.create({
     email: schema.string({}, [rules.email()]),
     name: schema.string({}, [rules.minLength(4)]),
+    imagePath: schema.string.optional(),
+    active: schema.boolean.optional(),
+    admin: schema.boolean.optional(),
   })
-
   /**
    * Custom messages for validation failures. You can make use of dot notation `(.)`
    * for targeting nested fields and array expressions `(*)` for targeting all
@@ -41,4 +41,6 @@ export default class UpdateUserValidator {
    *
    */
   public messages: CustomMessages = {}
+
+  constructor(protected ctx: HttpContextContract) {}
 }

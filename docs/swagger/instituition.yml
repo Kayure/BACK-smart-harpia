@@ -1,0 +1,153 @@
+/institutions:
+  post:
+    tags:
+      - Institution
+    summary: Cria uma nova instituição
+    description: Cria uma nova instituição com base nos dados fornecidos.
+    security:
+      - bearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: O nome da nova instituição.
+              abbreviation:
+                type: string
+                description: A abreviação da nova instituição.
+    responses:
+      '201':
+        description: Instituição criada com sucesso
+      '401':
+        $ref: '#/components/responses/Unauthorized'
+      '422':
+        description: Falha na validação dos dados
+  get:
+    tags:
+      - Institution
+    summary: Retorna a lista de instituições
+    description: Retorna uma lista de todas as instituições registradas.
+    security:
+      - bearerAuth: []
+    responses:
+      '200':
+        description: Uma matriz JSON de instituições
+      '401':
+        $ref: '#/components/responses/Unauthorized'
+'/institutions/{id}':
+  put:
+    tags:
+      - Institution
+    summary: Atualiza uma instituição
+    description: Atualiza uma instituição existente com base no ID fornecido.
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: id
+        required: true
+        description: O ID da instituição a ser atualizada.
+        schema:
+          type: integer
+          format: int64
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: O novo nome da instituição.
+              abbreviation:
+                type: string
+                description: A nova abreviação da instituição.
+    responses:
+      '200':
+        description: Instituição atualizada com sucesso
+      '401':
+        $ref: '#/components/responses/Unauthorized'
+      '404':
+        description: Instituição não encontrada
+      '422':
+        description: Falha na validação dos dados
+  get:
+    tags:
+      - Institution
+    summary: Obtém uma instituição por ID
+    description: Retorna uma instituição com base no ID fornecido.
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        description: ID da Instituição a ser obtida.
+    responses:
+      '200':
+        description: Instituição obtido com sucesso
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Institution'
+      '401':
+        $ref: '#/components/responses/Unauthorized'
+      '404':
+        description: Instituição não encontrada
+  delete:
+    tags:
+      - Institution
+    summary: Exclui uma instituição
+    description: Exclui uma instituição existente com base no ID fornecido.
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: id
+        required: true
+        description: O ID da instituição a ser excluída.
+        schema:
+          type: integer
+          format: int64
+    responses:
+      '204':
+        description: Instituição excluída com sucesso
+      '401':
+        $ref: '#/components/responses/Unauthorized'
+      '404':
+        description: Instituição não encontrada
+/institutions/allowed:
+ get:
+    tags:
+      - Institution
+    summary: Retorna a lista de instituições permitidas ao usuário
+    description: Retorna a lista de instituições permitidas ao usuário.
+    security:
+      - bearerAuth: []
+    responses:
+      '200':
+        description: Uma matriz JSON de instituições e dados do usuário
+      '401':
+        $ref: '#/components/responses/Unauthorized'
+'/institutions/{id}/users':
+ get:
+    tags:
+      - Institution
+    summary: Retorna a lista de usuários associados à instituição informada
+    description: Retorna a lista de usuários associados à instituição informada.
+    security:
+      - bearerAuth: []
+    responses:
+      '404':
+        description: Instituição não encontrada
+      '200':
+        description: Uma matriz JSON de usuários
+      '401':
+        $ref: '#/components/responses/Unauthorized'

@@ -1,11 +1,11 @@
 {
   "name": "smart-harpia",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "dev": "node ace serve --watch",
     "build": "node ace build --production",
-    "start": "node server.js",
+    "start": "node build/server.js",
     "lint": "eslint . --ext=.ts",
     "format": "prettier --write ."
   },
@@ -52,6 +52,7 @@
     "youch-terminal": "^2.1.5"
   },
   "dependencies": {
+    "@adonisjs/ally": "^4.1.5",
     "@adonisjs/auth": "^8.2.2",
     "@adonisjs/bouncer": "^2.3.0",
     "@adonisjs/core": "^5.8.0",
@@ -59,7 +60,8 @@
     "@adonisjs/mail": "^8.1.2",
     "@adonisjs/repl": "^3.1.0",
     "@adonisjs/view": "^6.2.0",
-    "luxon": "^3.0.3",
+    "adonis5-swagger": "^1.4.1",
+    "luxon": "3.2.1",
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
     "phc-argon2": "^1.1.3",

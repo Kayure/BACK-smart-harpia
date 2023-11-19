@@ -1,28 +1,27 @@
 import { HttpContext } from '@adonisjs/core/build/standalone'
+import Database from '@ioc:Adonis/Lucid/Database'
 import Device from 'App/Models/Device'
-import Local from 'App/Models/Local'
 import Log from 'App/Models/Log'
 import Mdev from 'App/Models/Mdev'
 import CreateLogValidator from 'App/Validators/CreateLogValidator'
 import UpdateLogValidator from 'App/Validators/UpdateLogValidator'
 import { DateTime } from 'luxon'
 
-// import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-
 export default class LogsController {
+  // Método para armazenar um novo log
   public async store({ request, response }: HttpContext) {
-    const logPayLoad = await request.validate(CreateLogValidator)
+    const logPayload = await request.validate(CreateLogValidator)
 
-    //Create a device if not exits
+    // Verificar se o dispositivo já existe, senão criar um
     let device = await Device.query()
-      .where('macAddress', logPayLoad.macAddress)
-      .andWhere('mdevId', logPayLoad.mdevId)
+      .where('macAddress', logPayload.macAddress)
+      .andWhere('mdevId', logPayload.mdevId)
       .first()
 
     if (device === null) {
       device = await Device.create({
-        mdevId: logPayLoad.mdevId,
-        macAddress: logPayLoad.macAddress,
+        mdevId: logPayload.mdevId,
+        macAddress: logPayload.macAddress,
       })
     }
 
@@ -32,18 +31,20 @@ export default class LogsController {
 
     await log.related('device').associate(device!)
 
-    const mdev = await Mdev.findOrFail(logPayLoad.mdevId)
+    const mdev = await Mdev.findOrFail(logPayload.mdevId)
     await log.related('mdev').associate(mdev)
 
     return response.created({ log })
   }
 
+  // Método para atualizar um log
   public async update({ request, response }: HttpContext) {
-    const logPayLoad = await request.validate(UpdateLogValidator)
+    const logPayload = await request.validate(UpdateLogValidator)
 
+    // Procurar o dispositivo e log correspondente
     const device = await Device.query()
-      .where('macAddress', logPayLoad.macAddress)
-      .andWhere('mdevId', logPayLoad.mdevId)
+      .where('macAddress', logPayload.macAddress)
+      .andWhere('mdevId', logPayload.mdevId)
       .firstOrFail()
 
     const log = await Log.query()
@@ -51,68 +52,75 @@ export default class LogsController {
       .andHavingNull('leavedAt')
       .firstOrFail()
 
+    //Marca o horário de saída
     log.leavedAt = DateTime.now()
 
-    log.save()
+    await log.save()
 
     return response.ok({ log })
   }
 
-  /*   public async listByMdev({ request, response }: HttpContext) {
-    const id = request.param('id')
-    const { realtime } = request.qs()
-
-    let logs: Log[]
-    if (realtime) {
-      logs = await Log.query().where('mdevId', id).andWhereNull('leaved_at').preload('device')
-    } else {
-      logs = await Log.query().where('mdevId', id).preload('device')
-    }
-
-    return response.ok({ logs })
-  } */
-
+  // Método para listar logs por Mdev
   public async listByMdev({ request, response }: HttpContext) {
     const id = request.param('id')
-    const { realtime } = request.qs()
+    let { realtime, page } = request.qs()
+
+    if (!page) page = 1
+
+    // Defina a quantidade de itens por página
+    const itemsPerPage = 100
+
+    // Calcule o índice inicial com base no número da página
+    const startIndex = (page - 1) * itemsPerPage
 
     const mdev = await Mdev.findOrFail(id)
-    if (realtime) {
+
+    if (realtime === 'true' || realtime === true) {
       await mdev.load('logs', (logQuery) => {
-        logQuery.whereNull('leaved_at').preload('device')
+        logQuery
+          .whereNull('leaved_at')
+          .preload('device')
+          .orderBy('id', 'desc')
+          .offset(startIndex)
+          .limit(itemsPerPage)
       })
     } else {
       await mdev.load('logs', (loader) => {
-        loader.preload('device')
+        loader.preload('device').orderBy('id', 'desc').offset(startIndex).limit(itemsPerPage)
       })
     }
 
     return response.ok(mdev)
   }
 
-  public async listByLocal({ request, response }: HttpContext) {
+  // Método para gerar um relatório
+  public async generateReport({ request, response }: HttpContext) {
     const id = request.param('id')
-    const { realtime } = request.qs()
 
-    const local = await Local.findOrFail(id)
-    await local.load('mdevs')
+    try {
+      // Aplicar a consulta SQL apenas para o mdev com mdev_id == id
+      const data = await Database.rawQuery(
+        `
+        SELECT
+          DATE_FORMAT(entered_at, '%Y-%m-%d %H:00:00') as hour_interval,
+          COUNT(DISTINCT device_id) as unique_devices_count
+        FROM
+          logs
+        WHERE
+          mdev_id = ?
+          AND entered_at IS NOT NULL
+        GROUP BY
+          hour_interval
+        ORDER BY
+          hour_interval
+      `,
+        [id]
+      )
 
-    const mdevs = local.mdevs
-
-    for (let i = 0; i < mdevs.length; i++) {
-      let mdev = mdevs[i]
-
-      if (realtime) {
-        await mdev.load('logs', (logQuery) => {
-          logQuery.whereNull('leaved_at').preload('device')
-        })
-      } else {
-        await mdev.load('logs', (loader) => {
-          loader.preload('device')
-        })
-      }
+      // Retornar os dados
+      return response.ok(data[0])
+    } catch (error) {
+      return response.badRequest({ message: 'No data found' })
     }
-
-    return response.ok(local)
   }
 }

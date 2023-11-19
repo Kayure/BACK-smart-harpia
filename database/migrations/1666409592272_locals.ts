@@ -7,11 +7,8 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table.string('name').notNullable()
-      table.string('nickname')
-      table.string('description').notNullable()
-      table.string('latitude').notNullable()
-      table.string('longitude').notNullable()
-      table.integer('city_id').unsigned().references('cities.id').onDelete('CASCADE')
+      table.integer('institution_id').unsigned().references('institutions.id').onDelete('CASCADE')
+      table.integer('ibge_code').notNullable()
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
