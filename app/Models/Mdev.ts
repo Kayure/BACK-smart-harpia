@@ -1,7 +1,6 @@
 import { BaseModel, belongsTo, BelongsTo, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
 
-import City from './City'
 import Device from './Device'
 import Local from './Local'
 import Log from './Log'
