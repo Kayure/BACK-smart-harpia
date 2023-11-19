@@ -6,6 +6,7 @@ export default class extends BaseSeeder {
     await Institution.create({
       id: 1,
       name: 'Smart Harpia',
+      imagePath: 'https://i.pinimg.com/originals/e4/b3/6d/e4b36d19932ba8ba22447fe9c84fc59a.jpg',
     })
   }
 }
