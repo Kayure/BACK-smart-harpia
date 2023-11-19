@@ -32,26 +32,7 @@
       content:
         application/json:
           schema:
-            type: object
-            properties:
-              name:
-                type: string
-                description: O nome do local.
-              nickname:
-                type: string
-                description: O apelido do local.
-              description:
-                type: string
-                description: A descrição do local.
-              latitude:
-                type: string
-                description: A latitude do local.
-              longitude:
-                type: string
-                description: A longitude do local.
-              city:
-                type: integer
-                description: O ID da cidade associada ao local.
+            $ref: '#/components/schemas/Local'
     responses:
       '201':
         description: Local criado com sucesso
@@ -85,26 +66,7 @@
       content:
         application/json:
           schema:
-            type: object
-            properties:
-              name:
-                type: string
-                description: O nome do local.
-              nickname:
-                type: string
-                description: O apelido do local.
-              description:
-                type: string
-                description: A descrição do local.
-              latitude:
-                type: string
-                description: A latitude do local.
-              longitude:
-                type: string
-                description: A longitude do local.
-              city:
-                type: integer
-                description: O ID da cidade associada ao local.
+            $ref: '#/components/schemas/Local'
     responses:
       '200':
         description: Local atualizado com sucesso
