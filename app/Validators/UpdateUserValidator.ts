@@ -26,6 +26,8 @@ export default class UpdateUserValidator {
     email: schema.string({}, [rules.email()]),
     name: schema.string({}, [rules.minLength(4)]),
     imagePath: schema.string.optional(),
+    active: schema.boolean.optional(),
+    admin: schema.boolean.optional(),
   })
   /**
    * Custom messages for validation failures. You can make use of dot notation `(.)`

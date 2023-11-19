@@ -22,6 +22,7 @@ export default class UpdateMdevValidator {
    *     ])
    *    ```
    */
+
   public schema = schema.create({
     name: schema.string(),
     latitude: schema.string(),

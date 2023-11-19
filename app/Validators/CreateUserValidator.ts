@@ -28,6 +28,7 @@ export default class CreateUserValidator {
     email: schema.string({}, [rules.email()]),
     imagePath: schema.string.optional(),
     institution: schema.number([rules.exists({ table: 'institutions', column: 'id' })]),
+    active: schema.boolean.optional(),
   })
   /**
    * Custom messages for validation failures. You can make use of dot notation `(.)`

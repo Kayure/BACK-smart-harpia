@@ -26,6 +26,7 @@ export default class CreateInstitutionValidator {
     name: schema.string({}),
     abbreviation: schema.string.optional(),
     imagePath: schema.string.optional(),
+    active: schema.boolean.optional(),
   })
   /**
    * Custom messages for validation failures. You can make use of dot notation `(.)`

@@ -29,6 +29,7 @@ export default class CreateMdevValidator {
     signalStrength: schema.string.optional(),
     imagePath: schema.string.optional(),
     local: schema.number([rules.exists({ table: 'locals', column: 'id' })]),
+    active: schema.boolean(),
   })
   /**
    * Custom messages for validation failures. You can make use of dot notation `(.)`

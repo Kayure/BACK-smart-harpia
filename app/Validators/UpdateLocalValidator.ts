@@ -24,8 +24,8 @@ export default class UpdateLocalValidator {
    */
   public schema = schema.create({
     name: schema.string(),
-    institution: schema.number([rules.exists({ table: 'institutions', column: 'id' })]),
-    city: schema.number([rules.exists({ table: 'cities', column: 'id' })]),
+    institution: schema.number.optional([rules.exists({ table: 'institutions', column: 'id' })]),
+    ibgeCode: schema.number(),
   })
   /**
    * Custom messages for validation failures. You can make use of dot notation `(.)`
