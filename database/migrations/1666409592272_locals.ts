@@ -8,7 +8,7 @@ export default class extends BaseSchema {
       table.increments('id')
       table.string('name').notNullable()
       table.integer('institution_id').unsigned().references('institutions.id').onDelete('CASCADE')
-      table.integer('city_id').unsigned().references('cities.id').onDelete('CASCADE')
+      table.integer('ibge_code').notNullable()
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
