@@ -88,6 +88,7 @@ export default class MdevsController {
       .andWhereNull('leaved_at')
       .update({ leaved_at: new Date(), reseted: 1 })
 
+
     return response.noContent()
   }
 

@@ -14,6 +14,7 @@ export default class extends BaseSchema {
       table.string('signal_strength').nullable()
       table.string('image_path').nullable()
 
+
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */

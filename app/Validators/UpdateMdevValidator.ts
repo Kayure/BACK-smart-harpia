@@ -29,6 +29,7 @@ export default class UpdateMdevValidator {
     longitude: schema.string(),
     signalStrength: schema.string.optional(),
     imagePath: schema.string.optional(),
+
     active: schema.boolean(),
     local: schema.number([rules.exists({ table: 'locals', column: 'id' })]),
   })
