@@ -1,7 +1,6 @@
 import { BaseModel, belongsTo, BelongsTo, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
 
-import City from './City'
 import Institution from './Institution'
 import Mdev from './Mdev'
 
@@ -19,10 +18,7 @@ export default class Local extends BaseModel {
   public institution: BelongsTo<typeof Institution>
 
   @column()
-  public cityId: number
-
-  @belongsTo(() => City)
-  public city: BelongsTo<typeof City>
+  public ibgeCode: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
