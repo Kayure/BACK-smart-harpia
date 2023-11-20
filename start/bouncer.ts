@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /**
  * Contract source: https://git.io/Jte3T
  *
@@ -8,7 +9,6 @@
 import Bouncer from '@ioc:Adonis/Addons/Bouncer'
 import Institution from 'App/Models/Institution'
 import Local from 'App/Models/Local'
-import Mdev from 'App/Models/Mdev'
 import User from 'App/Models/User'
 
 /*
@@ -37,16 +37,17 @@ export const { actions } = Bouncer.define('updateUser', (user: User, updatedUser
   return user.id === updatedUser.id
 })
   .define('updateInstitution', (user: User, updatedInstitution: Institution) => {
-    return user.institutionId === updatedInstitution.id && user.admin
+    // eslint-disable-next-line eqeqeq
+    return user.institutionId === updatedInstitution.id && user.admin == true
   })
   .define('updateLocal', (user: User, updatedLocal: Local) => {
-    return user.institutionId === updatedLocal.institutionId && user.admin
+    return user.institutionId === updatedLocal.institutionId && user.admin == true
   })
-  .define('updateMdev', (user: User, updatedMdev: Mdev) => {
-    return user.institutionId === updatedMdev.local.institutionId && user.admin
+  .define('updateMdev', async (user: User, newLocal: Local) => {
+    return user.institutionId === newLocal.institutionId && user.admin == true
   })
   .define('createUser', (user: User, newInstitutionId: Number) => {
-    return user.institutionId === newInstitutionId && user.admin
+    return user.institutionId === newInstitutionId && user.admin == true
   })
 
 Bouncer.before((user: User | null) => {

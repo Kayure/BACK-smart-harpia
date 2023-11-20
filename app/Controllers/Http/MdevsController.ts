@@ -29,7 +29,9 @@ export default class MdevsController {
     const id = request.param('id')
     const mdev = await Mdev.findOrFail(id)
 
-    await bouncer.authorize('updateMdev', mdev)
+    const newLocal = await Local.findOrFail(local)
+
+    await bouncer.authorize('updateMdev', newLocal)
 
     // Atualizar os campos do dispositivo Mdev
     if (imagePath) {
@@ -44,7 +46,6 @@ export default class MdevsController {
     mdev.longitude = longitude
     mdev.active = active
 
-    const newLocal = await Local.findOrFail(local)
     await mdev.related('local').associate(newLocal)
 
     await mdev.save()
@@ -87,7 +88,6 @@ export default class MdevsController {
       .where('mdev_id', id)
       .andWhereNull('leaved_at')
       .update({ leaved_at: new Date(), reseted: 1 })
-
 
     return response.noContent()
   }
