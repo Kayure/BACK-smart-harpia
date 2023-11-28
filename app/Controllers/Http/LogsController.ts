@@ -90,7 +90,13 @@ export default class LogsController {
       })
     }
 
-    return response.ok(mdev)
+    //Calcula total de logs
+    const [totalLogs] = await Database.rawQuery(
+      `SELECT COUNT(*) as total FROM logs WHERE mdev_id = ?`,
+      id
+    )
+
+    return response.ok({ totalLogs, mdev })
   }
 
   // Método para gerar um relatório

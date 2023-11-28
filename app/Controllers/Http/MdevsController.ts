@@ -7,6 +7,7 @@ import UpdateMdevValidator from 'App/Validators/UpdateMdevValidator'
 
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Device from 'App/Models/Device'
+import Database from '@ioc:Adonis/Lucid/Database'
 
 export default class MdevsController {
   // Método para criar um dispositivo Mdev
@@ -92,12 +93,27 @@ export default class MdevsController {
     return response.noContent()
   }
 
-  // Retorna todos devices associados ao mdev
+  // Retorna todos devices associados ao mdev com suporte para paginação
   public async getMdevDevicesById({ request, response }: HttpContext) {
     const id = request.param('id')
+    let { page } = request.qs()
 
-    const devices = await Device.query().where('mdev_id', id)
+    if (!page) page = 1
 
-    return response.ok({ devices })
+    // Defina a quantidade de itens por página
+    const itemsPerPage = 10 // Defina o número desejado de itens por página
+
+    // Calcule o índice inicial com base no número da página
+    const startIndex = (page - 1) * itemsPerPage
+
+    const devices = await Device.query().where('mdev_id', id).offset(startIndex).limit(itemsPerPage)
+
+    // Calcula total de devices
+    const [totalDevices] = await Database.rawQuery(
+      `SELECT COUNT(*) as total FROM devices WHERE mdev_id = ?`,
+      id
+    )
+
+    return response.ok({ totalDevices, devices })
   }
 }
